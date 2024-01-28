@@ -4,7 +4,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var bodyParser = require('body-parser')
-const { MongoClient, Int32 } = require("mongodb");
+const { MongoClient, Int32} = require("mongodb");
 const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 
@@ -79,7 +79,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         dataEdit = await collection.find( {_id:o_id}  ).toArray(); // Retrieve data by id
 
 
-        console.log(" dataEdit : ",dataEdit)
+        //console.log(" dataEdit : ",dataEdit)
         
         res.render(__dirname + '/views/edit.ejs', { dataEdit });
 
@@ -95,15 +95,31 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //const formData = req.body.Flight; // Access form data from the request body
         //console.log('Form Data:', formData);
 
-        const update_id = req.body.update_id
+        var ObjectId = require('mongodb').ObjectId; 
+        var id = req.body.update_id;       
+        var o_id = new ObjectId(id);
+
+        //const { FlightNumber } = req.body;
+
+        //const update_id = req.body.update_id
+
+
+        const updatedACDM = await collection.findOneAndUpdate(
+          { _id: new ObjectId(req.body.update_id)}, // Filter based on _id
+          { $set: { "FlightNumber": req.body.FlightNumber } }, // Update fields
+          //{ returnDocument: 'after' } // Return the modified document
+        );
+
+
         dataNew = {
 
-            FlightNumber: req.body.FlightNumber
+          _id:updatedACDM._id,
+          upData: req.body.FlightNumber
 
         }
-
-
+        
         console.log(dataNew)
+
         res.redirect('/');
 
 
