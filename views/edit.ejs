@@ -19,12 +19,16 @@
 
     <form method="post" action="/update">
         <div class="mb-3">
-            <label for="example1" class="form-label">ID</label>
+            <label for="label1" class="form-label">ID</label>
             <input type="text" id="update_id" name="update_id"  value=<%= dataEdit[0]._id %> class="form-control" >
           </div>
         <div class="mb-3">
-          <label for="example2" class="form-label">Flight</label>
+          <label for="label2" class="form-label">Flight</label>
           <input type="text" id="FlightNumber" name="FlightNumber"  value=<%= dataEdit[0].FlightNumber %> class="form-control" >
+        </div>
+        <div class="mb-3">
+          <label for="label3" class="form-label">EOBT</label>
+          <input type="text" id="EOBT" name="EOBT"  value=<%= dataEdit[0].EOBT %> class="form-control" >
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

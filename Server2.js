@@ -106,7 +106,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         const updatedACDM = await collection.findOneAndUpdate(
           { _id: new ObjectId(req.body.update_id)}, // Filter based on _id
-          { $set: { "FlightNumber": req.body.FlightNumber } }, // Update fields
+          { $set: { "FlightNumber": req.body.FlightNumber,"EOBT": req.body.EOBT } }, // Update fields
           //{ returnDocument: 'after' } // Return the modified document
         );
 
@@ -114,7 +114,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         dataNew = {
 
           _id:updatedACDM._id,
-          upData: req.body.FlightNumber
+          flight: req.body.FlightNumber,
+          eobt: req.body.EOBT
 
         }
         
