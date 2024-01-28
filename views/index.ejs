@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+     <!---Bootstrap-->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+     
+     <!--Socket.io-->
+     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
+    
+     
+ 
+</head>
+
+
+<body class="p-5">
+
+    
+    <% var text1 = "alert-primary" %>
+
+    <div id="allDisplayText">
+        <div id="displayText" class="alert <%= text1%> role="alert">
+            Data is upto date. 
+        </div>
+    </div>
+       
+    
+    <div id="allBox">
+        <% data.forEach(item => { %>
+        <div class="card">
+            <h5 class="card-header"><%= item.Airlines %></h5>
+            <div class="card-body">
+            <h5 class="card-title"><%= item.FlightNumber %></h5>
+            <p class="card-text">STD: <%= item.STD %>, EOBT: <%= item.EOBT %>  </p>
+            <a href="/edit/<%=item._id%>" class="btn btn-primary">Edit</a>
+            </div>
+        </div>
+      <hr>
+        <% }); %>
+    </div>
+
+  
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        var socket = io()
+        var html = ''
+        var updatedText = 'Test'
+        var box = document.querySelector('#allDisplayText')
+
+
+        socket.on('acdmData', (newText) => {
+
+            const displayText = document.getElementById('allDisplayText')
+
+            html = 
+            `
+        
+            <div id="displayText" class="alert alert-warning" role="alert">
+                Data updated! Please refresh. 
+            </div>
+            
+            `
+
+            box.innerHTML = html
+
+            //displayText.textContent = html;
+            
+
+
+
+
+            //document.getElementById('acdmData').textContent = pageTitle;
+        })
+
+
+/*
+        var box = document.querySelector('#allBox')
+        var html = ''
+      
+        socket.on('acdmData',(response)=>{
+
+            console.log(response);
+
+            
+
+            response.forEach((item, index) => {
+            console.log(`Index ${index + 1}: Name: ${item.Airlines}, Age: ${item.STD}`);
+
+            html += `
+
+                    
+                    <div class="card">
+                    <h5 class="card-header">${item.Airlines}</h5>
+                    <div class="card-body">
+                    <h5 class="card-title">${item.EOBT}</h5>
+                    <p class="card-text">STD: ${item.STD}, EOBT: ${item.STD}  </p>
+                    <a href="#" class="btn btn-primary">Edit</a>
+                    </div>
+                    </div>
+                    <hr>
+            
+                    `
+
+
+            
+            });
+
+      
+            box.innerHTML = html
+
+        })*/
+        
+
+        
+
+    </script>
+    
+
+
+
+
+
+</body>
+</html>
