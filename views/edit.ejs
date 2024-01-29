@@ -20,11 +20,11 @@
     <form method="post" action="/update">
         <div class="mb-3">
             <label for="label1" class="form-label">ID</label>
-            <input type="text" id="update_id" name="update_id"  value=<%= dataEdit[0]._id %> class="form-control" >
+            <input type="text" id="update_id" name="update_id"  value=<%= dataEdit[0]._id %> readonly class="form-control-plaintext" >
           </div>
         <div class="mb-3">
           <label for="label2" class="form-label">Flight</label>
-          <input type="text" id="FlightNumber" name="FlightNumber"  value=<%= dataEdit[0].FlightNumber %> class="form-control" >
+          <input type="text" id="FlightNumber" name="FlightNumber"  value=<%= dataEdit[0].FlightNumber %> readonly class="form-control-plaintext" >
         </div>
         <div class="mb-3">
           <label for="label3" class="form-label">EOBT</label>

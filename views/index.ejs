@@ -12,6 +12,7 @@
      <!--Socket.io-->
      <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
     
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
      
  
 </head>
@@ -22,32 +23,57 @@
     
     <% var text1 = "alert-primary" %>
 
+    
+
     <div id="allDisplayText">
         <div id="displayText" class="alert <%= text1%> role="alert">
             Data is upto date. 
         </div>
     </div>
-       
-    
-    <div id="allBox">
-        <% data.forEach(item => { %>
-        <div class="card">
-            <h5 class="card-header"><%= item.Airlines %></h5>
-            <div class="card-body">
-            <h5 class="card-title"><%= item.FlightNumber %></h5>
-            <p class="card-text">STD: <%= item.STD %>, EOBT: <%= item.EOBT %>  </p>
-            <a href="/edit/<%=item._id%>" class="btn btn-primary">Edit</a>
-            </div>
-        </div>
-      <hr>
-        <% }); %>
-    </div>
+
+    <hr>
+    <h2>VTSM A-CDM</h2>
+    <p>Samui airport A-CDM portal. Trial version.</p> 
+    <a class="btn btn-primary" href="#" role="button">input Database</a>
+    <hr> 
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <br>
+
+
+    <table class="table">
+        <thead>
+          <tr class="table-info">
+            <th scope="col">Airlines</th>
+            <th scope="col">Flight</th>
+            <th scope="col">Destination</th>
+            <th scope="col">STD</th>
+            <th scope="col">EOBT</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="myTable">
+          <% data.forEach(item => { %>
+          <tr>
+            <th scope="row"><%= item.Airlines %></th>
+            <td><%= item.FlightNumber %></td>
+            <td><%= item.Dest %></td>
+            <td><%= item.STD %></td>
+            <td><%= item.EOBT %></td>
+            <td><a href="/edit/<%=item._id%>" class="btn btn-primary">Edit</a></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
 
   
 
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
+
+        //<% var data2 = data.filter(value =>{ return value.STD == "1530"}) %>
+
+
         var socket = io()
         var html = ''
         var updatedText = 'Test'
@@ -69,14 +95,21 @@
 
             box.innerHTML = html
 
+
             //displayText.textContent = html;
             
 
-
-
-
             //document.getElementById('acdmData').textContent = pageTitle;
         })
+
+        $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+        });
+        });
 
 
 /*
