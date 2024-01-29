@@ -46,8 +46,10 @@
             <th scope="col">Airlines</th>
             <th scope="col">Flight</th>
             <th scope="col">Destination</th>
-            <th scope="col">STD</th>
+            <th scope="col">SOBT</th>
             <th scope="col">EOBT</th>
+            <th scope="col">TOBT</th>
+            <th scope="col">TSAT</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -57,8 +59,10 @@
             <th scope="row"><%= item.Airlines %></th>
             <td><%= item.FlightNumber %></td>
             <td><%= item.Dest %></td>
-            <td><%= item.STD %></td>
+            <td><%= item.SOBT %></td>
             <td><%= item.EOBT %></td>
+            <td><%= item.TOBT %></td>
+            <td><%= item.TSAT %></td>
             <td><a href="/edit/<%=item._id%>" class="btn btn-primary">Edit</a></td>
           </tr>
           <% }); %>
