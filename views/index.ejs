@@ -13,6 +13,7 @@
      <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
     
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
      
  
 </head>
@@ -23,7 +24,9 @@
     
     <% var text1 = "alert-primary" %>
 
-    
+
+  
+
 
     <div id="allDisplayText">
         <div id="displayText" class="alert <%= text1%> role="alert">
@@ -35,12 +38,25 @@
     <h2>VTSM A-CDM</h2>
     <p>Samui airport A-CDM portal. Trial version.</p> 
     <a class="btn btn-primary" href="#" role="button">input Database</a>
-    <hr> 
-    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <label for="nameFilter"></label>
+          <input class="form-control" type="text" id="nameFilter" placeholder="Search">
+        </div>
+        <div class="col-sm">
+
+        </div>
+        <div class="col-sm">
+          <label for="dateFilter"></label>
+          <input class="form-control" type="date" id="dateFilter">
+        </div>
+      </div>
+    </div>
     <br>
 
-
-    <table class="table">
+    <table class="table" id="myTable">
         <thead>
           <tr class="table-info">
             <th scope="col">Airlines</th>
@@ -50,10 +66,11 @@
             <th scope="col">EOBT</th>
             <th scope="col">TOBT</th>
             <th scope="col">TSAT</th>
+            <th scope="col">Date</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody id="myTable">
+        <tbody >
           <% data.forEach(item => { %>
           <tr>
             <th scope="row"><%= item.Airlines %></th>
@@ -63,6 +80,7 @@
             <td><%= item.EOBT %></td>
             <td><%= item.TOBT %></td>
             <td><%= item.TSAT %></td>
+            <td><%= item.date_ %></td>
             <td><a href="/edit/<%=item._id%>" class="btn btn-primary">Edit</a></td>
           </tr>
           <% }); %>
@@ -100,63 +118,50 @@
             box.innerHTML = html
 
 
-            //displayText.textContent = html;
-            
-
-            //document.getElementById('acdmData').textContent = pageTitle;
         })
 
-        $(document).ready(function(){
-        $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-        });
-        });
-
-
-/*
-        var box = document.querySelector('#allBox')
-        var html = ''
-      
-        socket.on('acdmData',(response)=>{
-
-            console.log(response);
-
-            
-
-            response.forEach((item, index) => {
-            console.log(`Index ${index + 1}: Name: ${item.Airlines}, Age: ${item.STD}`);
-
-            html += `
-
-                    
-                    <div class="card">
-                    <h5 class="card-header">${item.Airlines}</h5>
-                    <div class="card-body">
-                    <h5 class="card-title">${item.EOBT}</h5>
-                    <p class="card-text">STD: ${item.STD}, EOBT: ${item.STD}  </p>
-                    <a href="#" class="btn btn-primary">Edit</a>
-                    </div>
-                    </div>
-                    <hr>
-            
-                    `
-
-
-            
-            });
-
-      
-            box.innerHTML = html
-
-        })*/
-        
-
-        
 
     </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var nameFilterInput = document.getElementById('nameFilter');
+        var dateFilterInput = document.getElementById('dateFilter');
+        var rows = document.querySelectorAll('#myTable tbody tr');
+
+        // Set the default value of the datepicker to the current date
+        var today = new Date().toISOString().split('T')[0];
+        dateFilterInput.value = today;
+
+        function applyFilters() {
+          var nameFilterValue = nameFilterInput.value.toLowerCase();
+          var dateFilterValue = dateFilterInput.value;
+
+          rows.forEach(function(row) {
+            var nameMatch = false;
+            for (var i = 0; i < 4; i++) {
+              var nameCell = row.cells[i].textContent.toLowerCase();
+              if (nameCell.indexOf(nameFilterValue) > -1) {
+                nameMatch = true;
+                break;
+              }
+            }
+
+            var dateCell = row.cells[7].textContent;
+            var dateMatch = dateCell === dateFilterValue || dateFilterValue === '';
+
+            row.style.display = nameMatch && dateMatch ? '' : 'none';
+          });
+        }
+
+      
+
+        nameFilterInput.addEventListener('input', applyFilters);
+        dateFilterInput.addEventListener('input', applyFilters);
+      });
+    </script>
+
+
     
 
 
