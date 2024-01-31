@@ -5,7 +5,7 @@
   "main": "index.ejs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon server2.js"
+    "server": "node server2.js"
   },
   "keywords": [],
   "author": "",
