@@ -37,7 +37,7 @@
     <hr>
     <h2>VTSM A-CDM</h2>
     <p>Samui airport A-CDM portal. Trial version.</p> 
-    <a class="btn btn-primary" href="#" role="button">input Database</a>
+    <a class="btn btn-primary" href="/inputnew" role="button">input Database</a>
     <hr>
     <div class="container">
       <div class="row">
@@ -81,7 +81,8 @@
             <td><%= item.TOBT %></td>
             <td><%= item.TSAT %></td>
             <td><%= item.date_ %></td>
-            <td><a href="/edit/<%=item._id%>" class="btn btn-primary">Edit</a></td>
+            <td><a href="/edit/<%=item._id%>" class="btn btn-primary">Edit</a>  <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="btn btn-danger">Delete</a></td>
+          
           </tr>
           <% }); %>
         </tbody>
@@ -130,8 +131,8 @@
         var rows = document.querySelectorAll('#myTable tbody tr');
 
         // Set the default value of the datepicker to the current date
-        var today = new Date().toISOString().split('T')[0];
-        dateFilterInput.value = today;
+        //var today = new Date().toISOString().split('T')[0];
+        //dateFilterInput.value = today;
 
         function applyFilters() {
           var nameFilterValue = nameFilterInput.value.toLowerCase();
@@ -160,6 +161,8 @@
         dateFilterInput.addEventListener('input', applyFilters);
       });
     </script>
+
+
 
 
     

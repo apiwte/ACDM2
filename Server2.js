@@ -88,6 +88,82 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         res.status(500).send('Error retrieving data');
       }
     });
+
+    app.get('/delete/:thisid', async (req, res, next) => {
+      try{
+
+        var ObjectId = require('mongodb').ObjectId; 
+        var id = req.params.thisid;       
+        var o_id = new ObjectId(id);
+
+        console.log(o_id)
+        dataDelete = await collection.findOneAndDelete(
+          {_id : o_id}
+
+
+        )
+
+        res.redirect('/');
+
+
+      }catch (err) {
+        console.error('Error Delete data:', err);
+        res.status(500).send('Error Delete data');
+      }
+      
+    });
+
+    app.get('/inputnew',async(req,res)=>{
+
+      try {
+        
+        data = await collection.find().toArray(); // Retrieve all documents
+
+        //const data = await flights.find({});
+        //console.log(data)
+        
+        res.render(__dirname + '/views/inputnew.ejs', { data });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+
+    })
+
+    app.post('/insert', urlencodedParser, async (req, res) => {
+      try {
+
+        var body = req.body;       
+
+
+       insertoneACDM = await collection.insertOne({
+          FlightNumber: body.FlightNumber,
+          Airlines: body.Airlines,
+          Dest: body.Dest, 
+          SOBT: body.SOBT
+      
+        })
+
+
+        dataNew = {
+
+          flight: req.body.FlightNumber,
+          sobt: req.body.SOBT
+
+        }
+        
+        console.log(dataNew)
+
+        res.redirect('/');
+
+      } catch (error) {
+        console.error('Error insert data:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+
+
     
     app.post('/update', urlencodedParser, async (req, res) => {
       try {
