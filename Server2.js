@@ -140,8 +140,10 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
        insertoneACDM = await collection.insertOne({
           FlightNumber: body.FlightNumber,
           Airlines: body.Airlines,
-          Dest: body.Dest, 
+          Dest: body.Dest,
+          date_: req.body.date_,
           SOBT: body.SOBT
+        
       
         })
 

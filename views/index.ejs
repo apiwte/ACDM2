@@ -48,7 +48,7 @@
         <div class="col-sm">
 
         </div>
-        <div class="col-sm">
+        <div class="col-sm" id="date_">
           <label for="dateFilter"></label>
           <input class="form-control" type="date" id="dateFilter">
         </div>
@@ -96,6 +96,17 @@
 
         //<% var data2 = data.filter(value =>{ return value.STD == "1530"}) %>
 
+        html2 = 
+            `
+        
+            <div class="col-sm" id="date_">
+              <label for="dateFilter"></label>
+              <input class="form-control" value="2024-01-02" type="date" id="dateFilter">
+            </div>
+            
+            `
+        document.getElementById("date_").innerHTML = html2 
+
 
         var socket = io()
         var html = ''
@@ -120,6 +131,47 @@
 
 
         })
+
+        
+        var nameFilterInput = document.getElementById('nameFilter');
+        var dateFilterInput = document.getElementById('dateFilter');
+        var rows = document.querySelectorAll('#myTable tbody tr');
+
+        // Set the default value of the datepicker to the current date
+        var today = new Date().toISOString().split('T')[0];
+        dateFilterInput.value = today;
+
+        function applyFilters() {
+          var nameFilterValue = nameFilterInput.value.toLowerCase();
+          var dateFilterValue = dateFilterInput.value;
+
+          rows.forEach(function(row) {
+            var nameMatch = false;
+            for (var i = 0; i < 4; i++) {
+              var nameCell = row.cells[i].textContent.toLowerCase();
+              if (nameCell.indexOf(nameFilterValue) > -1) {
+                nameMatch = true;
+                break;
+              }
+            }
+
+            var dateCell = row.cells[7].textContent;
+            var dateMatch = dateCell === dateFilterValue || dateFilterValue === '';
+
+            row.style.display = nameMatch && dateMatch ? '' : 'none';
+          });
+        }
+
+      
+
+        nameFilterInput.addEventListener('input', applyFilters);
+        dateFilterInput.addEventListener('input', applyFilters);
+  
+
+      applyFilters()
+
+
+
 
 
     </script>
