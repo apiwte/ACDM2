@@ -184,7 +184,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         const updatedACDM = await collection.findOneAndUpdate(
           { _id: new ObjectId(req.body.update_id)}, // Filter based on _id
-          { $set: { "FlightNumber": req.body.FlightNumber,"EOBT": req.body.EOBT,"TOBT": req.body.TOBT,"TSAT": req.body.TSAT,"date_": req.body.date_ } }, // Update fields
+          { $set: { "FlightNumber": req.body.FlightNumber,"EOBT": req.body.EOBT,"TOBT": req.body.TOBT,"TSAT": req.body.TSAT} }, // Update fields
           //{ returnDocument: 'after' } // Return the modified document
         );
 

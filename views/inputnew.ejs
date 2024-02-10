@@ -27,7 +27,7 @@
       </div>
       <div class="mb-3">
         <label for="label1" class="form-label">Flight</label>
-        <input type="text" id="FlightNumber" name="FlightNumber" class="form-control"   >
+        <input type="text" id="FlightNumber" name="FlightNumber" data-bind="value:replyNumber" class="form-control"   >
       </div>
       <div class="mb-3">
         <label for="label1" class="form-label">Destination</label>
@@ -35,7 +35,7 @@
       </div>
       <div class="mb-3">
         <label for="label1" class="form-label">SOBT</label>
-        <input type="text" id="SOBT" name="SOBT" class="form-control"   >
+        <input type="text" id="SOBT" name="SOBT" pattern="[0-9]{4}" class="form-control"   >
       </div>
       <div class="col-sm">
         <label for="dateFilter"></label>

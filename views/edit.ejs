@@ -18,25 +18,29 @@
 
 
     <form method="post" action="/update">
-        <div class="mb-3">
-            <label for="label1" class="form-label">ID</label>
-            <input type="text" id="update_id" name="update_id"  value=<%= dataEdit[0]._id %> readonly class="form-control-plaintext" >
+        <div class="mb-3" >
+            <label for="label1" class="form-label"></label>
+            <input id="update_id" type="hidden" name="update_id"  value=<%= dataEdit[0]._id %> readonly class="form-control-plaintext" >
           </div>
         <div class="mb-3">
           <label for="label2" class="form-label">Flight</label>
           <input type="text" id="FlightNumber" name="FlightNumber"  value=<%= dataEdit[0].FlightNumber %> readonly class="form-control-plaintext" >
         </div>
         <div class="mb-3">
+          <label for="label2" class="form-label">SOBT</label>
+          <input type="text" id="SOBT" name="SOBT"  value=<%= dataEdit[0].SOBT %> readonly class="form-control-plaintext" >
+        </div>
+        <div class="mb-3">
           <label for="label3" class="form-label">EOBT</label>
-          <input type="text" id="EOBT" name="EOBT" class="form-control"  value=<%= dataEdit[0].EOBT %> >
+          <input type="text" id="EOBT" name="EOBT" class="form-control"  pattern="[0-9]{4}" value=<%= dataEdit[0].EOBT %> >
         </div>
         <div class="mb-3">
           <label for="label3" class="form-label">TOBT</label>
-          <input type="text" id="TOBT" name="TOBT" class="form-control"  value=<%= dataEdit[0].TOBT %>  >
+          <input type="text" id="TOBT" name="TOBT" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].TOBT %>  >
         </div>
         <div class="mb-3">
           <label for="label3" class="form-label">TSAT</label>
-          <input type="text" id="TSAT" name="TSAT" class="form-control"  value=<%= dataEdit[0].TSAT %> >
+          <input type="text" id="TSAT" name="TSAT" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].TSAT %> >
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
