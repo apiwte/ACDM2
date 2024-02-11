@@ -148,7 +148,7 @@
         })
 
         
-        
+        //Load filter when start
         var nameFilterInput = document.getElementById('nameFilter');
         var dateFilterInput = document.getElementById('dateFilter');
         var rows = document.querySelectorAll('#myTable tbody tr');
@@ -167,7 +167,7 @@
 
           rows.forEach(function(row) {
             var nameMatch = false;
-            for (var i = 0; i < 10; i++) {
+            for (var i = 0; i < 80; i++) {
               var nameCell = row.cells[i].textContent.toLowerCase();
               if (nameCell.indexOf(nameFilterValue) > -1) {
                 nameMatch = true;
@@ -182,13 +182,20 @@
           });
         }
 
-      
+
+
+
 
         nameFilterInput.addEventListener('input', applyFilters);
         dateFilterInput.addEventListener('input', applyFilters);
-  
+        //
 
+  
       applyFilters()
+      
+
+
+
 
       //Reload page when press "back"
       window.addEventListener( "pageshow", function ( event ) {
@@ -240,6 +247,7 @@
           });
         }
 
+
       
 
         nameFilterInput.addEventListener('input', applyFilters);
@@ -265,6 +273,34 @@
       setInterval(updateCurrentTime, 1000);*/
     </script>
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var rows = document.querySelectorAll('#myTable tbody tr');
+
+        function sortTableByColumn(columnIndex) {
+            var switching = true;
+            while (switching) {
+                switching = false;
+                for (var i = 1; i < (rows.length - 1); i++) {
+                    var x = rows[i].getElementsByTagName("td")[columnIndex];
+                    var y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        document.getElementById("sortButton").addEventListener("click", function() {
+            // Sort table by date (column index 3)
+            sortTableByColumn(3);
+        });
+    });
+</script>
+    
+    
 
 
 

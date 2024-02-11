@@ -56,6 +56,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         
         data = await collection.find().toArray(); // Retrieve all documents
 
+        data.sort((a, b) => a.date_.toLowerCase().localeCompare(b.date_.toLowerCase()) || a.SOBT - b.SOBT);
+
         //const data = await flights.find({});
         console.log(data)
         
