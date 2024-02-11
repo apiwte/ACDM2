@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Samui airport A-CDM portal</title>
 
      <!---Bootstrap-->
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -66,14 +66,14 @@
             <th scope="col">Airlines</th>
             <th scope="col">Flight</th>
             <th scope="col">Destination</th>
-            <th scope="col" title="Standard off-block time (Schedule time)">SOBT</th>
+            <th scope="col" class="border-start" title="Standard off-block time (Schedule time)">SOBT</th>
             <th scope="col" title="Estimate off-block time">EOBT</th>
-            <th scope="col" title="Estimate start boarding time">ESBT</th>
+            <th class="border-start"scope="col" title="Estimate start boarding time">ESBT</th>
             <th scope="col" title="Actual start boarding time">ASBT</th>
-            <th class="border border-dark" scope="col" title="Target off-block time">TOBT</th>
-            <th class="border border-dark" scope="col" title="Target start-up approval time">TSAT</th>
+            <th class="border-start" scope="col" title="Target off-block time">TOBT</th>
+            <th scope="col" title="Target start-up approval time">TSAT</th>
             <th scope="col" title="Calculated take-off time">CTOT</th>
-            <th scope="col">Date</th>
+            <th class="border-start"scope="col">Date</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -83,20 +83,21 @@
             <th scope="row"><%= item.Airlines %></th>
             <td><%= item.FlightNumber %></td>
             <td><%= item.Dest %></td>
-            <td><%= item.SOBT %></td>
+            <td class="border-start" ><%= item.SOBT %></td>
             <td><%= item.EOBT %></td>
-            <td><%= item.ESBT %></td>
+            <td class="border-start"><%= item.ESBT %></td>
             <td><%= item.ASBT %></td>
-            <td><%= item.TOBT %></td>
+            <td class="border-start"><%= item.TOBT %></td>
             <td><%= item.TSAT %></td>
-            <td><%= item.CTOT %></td>
-            <td><%= item.date_ %></td>
-            <td><a href="/edit/<%=item._id%>" class="btn btn-primary">AO</a>  <a href="/edit_atc/<%=item._id%>" class="btn btn-primary">ATC</a>  <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="btn btn-danger">Delete</a></td>
+            <td class="border-end"><%= item.CTOT %></td>
+            <td class="border-start"><%= item.date_ %></td>
+            <td><a href="/edit/<%=item._id%>" class="btn btn-primary">Airlines</a>  <a href="/edit_atc/<%=item._id%>" class="btn btn-warning">ATC</a>  <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="btn btn-danger">Delete</a></td>
           
           </tr>
           <% }); %>
         </tbody>
       </table>
+
 
   
 
