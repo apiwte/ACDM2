@@ -39,7 +39,8 @@
 
     <hr>
     <h2>VTSM A-CDM</h2>
-    <p>Samui airport A-CDM portal. Trial version.</p> 
+    <h6>Samui airport A-CDM portal. Trial version.</h6>
+    <p>All time in localtime (UTC+7)</p>  
     <a class="btn btn-primary" href="/inputnew" role="button">input Database</a>
     <hr>
     <div class="container">
@@ -65,10 +66,13 @@
             <th scope="col">Airlines</th>
             <th scope="col">Flight</th>
             <th scope="col">Destination</th>
-            <th scope="col">SOBT</th>
-            <th scope="col">EOBT</th>
-            <th scope="col">TOBT</th>
-            <th scope="col">TSAT</th>
+            <th scope="col" title="Standard off-block time (Schedule time)">SOBT</th>
+            <th scope="col" title="Estimate off-block time">EOBT</th>
+            <th scope="col" title="Estimate start boarding time">ESBT</th>
+            <th scope="col" title="Actual start boarding time">ASBT</th>
+            <th class="border border-dark" scope="col" title="Target off-block time">TOBT</th>
+            <th class="border border-dark" scope="col" title="Target start-up approval time">TSAT</th>
+            <th scope="col" title="Calculated take-off time">CTOT</th>
             <th scope="col">Date</th>
             <th scope="col">Action</th>
           </tr>
@@ -81,10 +85,13 @@
             <td><%= item.Dest %></td>
             <td><%= item.SOBT %></td>
             <td><%= item.EOBT %></td>
+            <td><%= item.ESBT %></td>
+            <td><%= item.ASBT %></td>
             <td><%= item.TOBT %></td>
             <td><%= item.TSAT %></td>
+            <td><%= item.CTOT %></td>
             <td><%= item.date_ %></td>
-            <td><a href="/edit/<%=item._id%>" class="btn btn-primary">Edit</a>  <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="btn btn-danger">Delete</a></td>
+            <td><a href="/edit/<%=item._id%>" class="btn btn-primary">AO</a>  <a href="/edit_atc/<%=item._id%>" class="btn btn-primary">ATC</a>  <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="btn btn-danger">Delete</a></td>
           
           </tr>
           <% }); %>
@@ -134,6 +141,9 @@
 
             location.reload();
 
+            
+            
+
 
         })
 
@@ -150,14 +160,14 @@
         
   
 
-
+        
         function applyFilters() {
           var nameFilterValue = nameFilterInput.value.toLowerCase();
           var dateFilterValue = dateFilterInput.value;
 
           rows.forEach(function(row) {
             var nameMatch = false;
-            for (var i = 0; i < 4; i++) {
+            for (var i = 0; i < 10; i++) {
               var nameCell = row.cells[i].textContent.toLowerCase();
               if (nameCell.indexOf(nameFilterValue) > -1) {
                 nameMatch = true;
@@ -165,7 +175,7 @@
               }
             }
 
-            var dateCell = row.cells[7].textContent;
+            var dateCell = row.cells[10].textContent;
             var dateMatch = dateCell === dateFilterValue || dateFilterValue === '';
 
             row.style.display = nameMatch && dateMatch ? '' : 'none';
@@ -180,6 +190,7 @@
 
       applyFilters()
 
+      //Reload page when press "back"
       window.addEventListener( "pageshow", function ( event ) {
         var historyTraversal = event.persisted || 
         ( typeof window.performance != "undefined" && 
@@ -189,6 +200,8 @@
       window.location.reload();
        }
       });
+
+
 
 
 
@@ -212,7 +225,7 @@
 
           rows.forEach(function(row) {
             var nameMatch = false;
-            for (var i = 0; i < 4; i++) {
+            for (var i = 0; i < 10; i++) {
               var nameCell = row.cells[i].textContent.toLowerCase();
               if (nameCell.indexOf(nameFilterValue) > -1) {
                 nameMatch = true;
@@ -220,7 +233,7 @@
               }
             }
 
-            var dateCell = row.cells[7].textContent;
+            var dateCell = row.cells[10].textContent;
             var dateMatch = dateCell === dateFilterValue || dateFilterValue === '';
 
             row.style.display = nameMatch && dateMatch ? '' : 'none';

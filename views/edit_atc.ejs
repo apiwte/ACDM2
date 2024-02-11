@@ -17,7 +17,7 @@
 <body class="p-5">
 
 
-    <form method="post" action="/update">
+    <form method="post" action="/update_atc">
         <div class="mb-3" >
             <label for="label1" class="form-label"></label>
             <input id="update_id" type="hidden" name="update_id"  value=<%= dataEdit[0]._id %> readonly class="form-control-plaintext" >
@@ -29,32 +29,37 @@
         <hr>
         <div class="mb-3">
           <label for="label2" class="form-label">SOBT</label>
-          <input type="text" id="SOBT" name="SOBT"  value=<%= dataEdit[0].SOBT %> readonly class="form-control-plaintext" >
+          <input type="text" id="SOBT" name="SOBT"  readonly class="form-control-plaintext" value=<%= dataEdit[0].SOBT %> >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label3" class="form-label">EOBT</label>
-          <input type="text" id="EOBT" name="EOBT" class="form-control"  pattern="[0-9]{4}" value=<%= dataEdit[0].EOBT %> >
+          <label for="label2" class="form-label">EOBT</label>
+          <input type="text" id="EOBT" name="EOBT" readonly class="form-control-plaintext" value=<%= dataEdit[0].EOBT %> >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label3" class="form-label">ESBT</label>
-          <input type="text" id="ESBT" name="ESBT" class="form-control"  pattern="[0-9]{4}" value=<%= dataEdit[0].ESBT %> >
+          <label for="label2" class="form-label">ESBT</label>
+          <input type="text" id="ESBT" name="ESBT" readonly class="form-control-plaintext" value=<%= dataEdit[0].ESBT %> >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label3" class="form-label">EOBT</label>
-          <input type="text" id="ASBT" name="ASBT" class="form-control"  pattern="[0-9]{4}" value=<%= dataEdit[0].ASBT %> >
+          <label for="label2" class="form-label">ASBT</label>
+          <input type="text" id="ASBT" name="ASBT"readonly class="form-control-plaintext" value=<%= dataEdit[0].ASBT %> >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label3" class="form-label">TOBT</label>
-          <input type="text" id="TOBT" name="TOBT" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].TOBT %>  >
+          <label for="label2" class="form-label">TOBT</label>
+          <input type="text" id="TOBT" name="TOBT" readonly class="form-control-plaintext" value=<%= dataEdit[0].TOBT %> >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label2" class="form-label">TSAT</label>
-          <input type="text" id="TSAT" name="TSAT"readonly class="form-control-plaintext" value=<%= dataEdit[0].TSAT %> >
+          <label for="label3" class="form-label">TSAT</label>
+          <input type="text" id="TSAT" name="TSAT" pattern="[0-9]{4}" value=<%= dataEdit[0].TSAT %> >
+        </div>
+        <hr>
+        <div class="mb-3">
+          <label for="label3" class="form-label">CTOT</label>
+          <input type="text" id="CTOT" name="CTOT" pattern="[0-9]{4}" value=<%= dataEdit[0].CTOT %> >
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

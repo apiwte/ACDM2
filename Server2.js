@@ -57,7 +57,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         data = await collection.find().toArray(); // Retrieve all documents
 
         //const data = await flights.find({});
-        //console.log(data)
+        console.log(data)
         
         res.render(__dirname + '/views/index.ejs', { data });
 
@@ -82,6 +82,28 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //console.log(" dataEdit : ",dataEdit)
         
         res.render(__dirname + '/views/edit.ejs', { dataEdit });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+    });
+
+    app.get('/edit_atc/:thisid', async (req, res) => {
+      try {
+
+        var ObjectId = require('mongodb').ObjectId; 
+        var id = req.params.thisid;       
+        var o_id = new ObjectId(id);
+        
+        myId = req.params.thisid
+
+        dataEdit = await collection.find( {_id:o_id}  ).toArray(); // Retrieve data by id
+
+
+        //console.log(" dataEdit : ",dataEdit)
+        
+        res.render(__dirname + '/views/edit_atc.ejs', { dataEdit });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
@@ -181,23 +203,77 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         //const update_id = req.body.update_id
 
+        const checkTOBT = await collection.updateOne(
+          { 
+            _id: new ObjectId(req.body.update_id),
+            $and: [ 
+                { TOBT: { $ne: req.body.TOBT }}
+            ]
+          },
+          {
+            $set: {
+              TSAT: ""
+            }}
+          )
+
+          console.log(req.body.TOBT)
+          //console.log($ne)
+
+
+
 
         const updatedACDM = await collection.findOneAndUpdate(
           { _id: new ObjectId(req.body.update_id)}, // Filter based on _id
-          { $set: { "FlightNumber": req.body.FlightNumber,"EOBT": req.body.EOBT,"TOBT": req.body.TOBT,"TSAT": req.body.TSAT} }, // Update fields
+          { $set: { "FlightNumber": req.body.FlightNumber,"EOBT": req.body.EOBT,"TOBT": req.body.TOBT,"ESBT": req.body.ESBT,"ASBT": req.body.ASBT} }, // Update fields
           //{ returnDocument: 'after' } // Return the modified document
         );
 
 
-        dataNew = {
 
-          _id:updatedACDM._id,
-          flight: req.body.FlightNumber,
-          eobt: req.body.EOBT
 
-        }
-        
-        console.log(dataNew)
+
+
+        res.redirect('/');
+
+
+        //const { FlightNumber } = req.body;
+        //console.log(req.body);
+    
+        /*
+        const updatedPerson = await Person.findOneAndUpdate(
+          { _id: req.params.id },
+          { $set: { FlightNumber } },
+          { new: true }
+        );*/
+
+        //res.redirect('/');
+      } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+
+    app.post('/update_atc', urlencodedParser, async (req, res) => {
+      try {
+
+        //const formData = req.body.Flight; // Access form data from the request body
+        //console.log('Form Data:', formData);
+
+        var ObjectId = require('mongodb').ObjectId; 
+        var id = req.body.update_id;       
+        var o_id = new ObjectId(id);
+
+        //const { FlightNumber } = req.body;
+
+        //const update_id = req.body.update_id
+
+
+        const updatedACDM = await collection.findOneAndUpdate(
+          { _id: new ObjectId(req.body.update_id)}, // Filter based on _id
+          { $set: { "TSAT": req.body.TSAT,"CTOT": req.body.CTOT} }, // Update fields
+          //{ returnDocument: 'after' } // Return the modified document
+        );
+
 
         res.redirect('/');
 
