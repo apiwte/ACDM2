@@ -28,33 +28,43 @@
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label2" class="form-label">SOBT</label>
+          <label for="label2" class="form-label">Destination</label>
+          <input type="text" id="Dest" name="Dest"  value=<%= dataEdit[0].Dest %> readonly class="form-control-plaintext" >
+        </div>
+        <hr>
+        <div class="mb-3">
+          <label for="label2" class="form-label">SOBT : Standard off-block time (Schedule time)</label>
           <input type="text" id="SOBT" name="SOBT"  value=<%= dataEdit[0].SOBT %> readonly class="form-control-plaintext" >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label3" class="form-label">EOBT</label>
+          <label for="label3" class="form-label">EOBT : Estimate off-block time</label>
           <input type="text" id="EOBT" name="EOBT" class="form-control"  pattern="[0-9]{4}" value=<%= dataEdit[0].EOBT %> >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label3" class="form-label">ESBT</label>
+          <label for="label3" class="form-label">ESBT : Estimate start boarding time </label>
           <input type="text" id="ESBT" name="ESBT" class="form-control"  pattern="[0-9]{4}" value=<%= dataEdit[0].ESBT %> >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label3" class="form-label">EOBT</label>
+          <label for="label3" class="form-label">ASBT : Actual start boarding time</label>
           <input type="text" id="ASBT" name="ASBT" class="form-control"  pattern="[0-9]{4}" value=<%= dataEdit[0].ASBT %> >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label3" class="form-label">TOBT</label>
+          <label for="label3" class="form-label">TOBT : Target off-block time</label>
           <input type="text" id="TOBT" name="TOBT" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].TOBT %>  >
         </div>
         <hr>
         <div class="mb-3">
-          <label for="label2" class="form-label">TSAT</label>
+          <label for="label2" class="form-label">TSAT : Target start-up approval time</label>
           <input type="text" id="TSAT" name="TSAT"readonly class="form-control-plaintext" value=<%= dataEdit[0].TSAT %> >
+        </div>
+        <hr>
+        <div class="mb-3">
+          <label for="label2" class="form-label">CTOT : Calculated take-off time</label>
+          <input type="text" id="CTOT" name="CTOT"readonly class="form-control-plaintext" value=<%= dataEdit[0].CTOT %> >
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
