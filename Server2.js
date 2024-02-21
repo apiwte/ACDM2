@@ -168,7 +168,10 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           Airlines: body.Airlines,
           Dest: body.Dest,
           date_: req.body.date_,
-          SOBT: body.SOBT
+          SOBT: body.SOBT,
+          AOBT: ""
+          
+          
         
       
         })
