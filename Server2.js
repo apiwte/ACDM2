@@ -56,6 +56,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         
         data = await collection.find().toArray(); // Retrieve all documents
 
+
+        //Sort data by Date and SOBT
         data.sort((a, b) => a.date_.toLowerCase().localeCompare(b.date_.toLowerCase()) || a.SOBT - b.SOBT);
 
         //const data = await flights.find({});
@@ -226,7 +228,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         const updatedACDM = await collection.findOneAndUpdate(
           { _id: new ObjectId(req.body.update_id)}, // Filter based on _id
-          { $set: { "FlightNumber": req.body.FlightNumber,"EOBT": req.body.EOBT,"TOBT": req.body.TOBT,"ESBT": req.body.ESBT,"ASBT": req.body.ASBT} }, // Update fields
+          { $set: { "FlightNumber": req.body.FlightNumber,"EOBT": req.body.EOBT,"TOBT": req.body.TOBT,"ESBT": req.body.ESBT,"ASBT": req.body.ASBT,"AOBT": req.body.AOBT} }, // Update fields
           //{ returnDocument: 'after' } // Return the modified document
         );
 

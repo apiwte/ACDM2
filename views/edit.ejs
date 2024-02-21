@@ -19,9 +19,9 @@
 
     <form method="post" action="/update">
         <div class="mb-3" >
-            <label for="label1" class="form-label"></label>
+            <label for="label1" class="form-group row"></label>
             <input id="update_id" type="hidden" name="update_id"  value=<%= dataEdit[0]._id %> readonly class="form-control-plaintext" >
-          </div>
+        </div>
         <div class="mb-3">
           <label for="label2" class="form-label">Flight</label>
           <input type="text" id="FlightNumber" name="FlightNumber"  value=<%= dataEdit[0].FlightNumber %> readonly class="form-control-plaintext" >
@@ -55,6 +55,11 @@
         <div class="mb-3">
           <label for="label3" class="form-label">TOBT : Target off-block time</label>
           <input type="text" id="TOBT" name="TOBT" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].TOBT %>  >
+        </div>
+        <hr>
+        <div class="mb-3">
+          <label for="label3" class="form-label">AOBT : Actual off-block time</label>
+          <input type="text" id="AOBT" name="AOBT" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].AOBT %>  >
         </div>
         <hr>
         <div class="mb-3">

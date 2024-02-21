@@ -73,23 +73,29 @@
             <th class="border-start" scope="col" title="Target off-block time">TOBT</th>
             <th scope="col" title="Target start-up approval time">TSAT</th>
             <th scope="col" title="Calculated take-off time">CTOT</th>
+            <th scope="col" title="Actual Off-block time">AOBT</th>
             <th class="border-start"scope="col">Date</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody >
           <% data.forEach(item => { %>
-          <tr>
+            <% if(item.AOBT == ""){ %>
+              <tr<%= item.AOBT %>>
+            <% } else{ %>  
+              <tr class="table-success"<%= item.AOBT %>>
+            <% } %>
             <th scope="row"><%= item.Airlines %></th>
             <td><%= item.FlightNumber %></td>
             <td><%= item.Dest %></td>
             <td class="border-start" ><%= item.SOBT %></td>
             <td><%= item.EOBT %></td>
-            <td class="border-start"><%= item.ESBT %></td>
+            <td class="border-start" ><%= item.ESBT %></td>
             <td><%= item.ASBT %></td>
             <td class="border-start"><%= item.TOBT %></td>
-            <td><%= item.TSAT %></td>
-            <td class="border-end"><%= item.CTOT %></td>
+            <td class="border-end text-primary"><%= item.TSAT %></td>
+            <td class="border-end text-danger"><%= item.CTOT %></td>
+            <td><%= item.AOBT %></td>
             <td class="border-start"><%= item.date_ %></td>
             <td><a href="/edit/<%=item._id%>" class="btn btn-primary">Airlines</a>  <a href="/edit_atc/<%=item._id%>" class="btn btn-warning">ATC</a>  <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="btn btn-danger">Delete</a></td>
           
@@ -176,7 +182,7 @@
               }
             }
 
-            var dateCell = row.cells[10].textContent;
+            var dateCell = row.cells[11].textContent;
             var dateMatch = dateCell === dateFilterValue || dateFilterValue === '';
 
             row.style.display = nameMatch && dateMatch ? '' : 'none';
@@ -202,7 +208,7 @@
       window.addEventListener( "pageshow", function ( event ) {
         var historyTraversal = event.persisted || 
         ( typeof window.performance != "undefined" && 
-                              window.performance.navigation.type === 2 );
+            window.performance.navigation.type === 2 );
       if ( historyTraversal ) {
       // Handle page restore.
       window.location.reload();
@@ -233,7 +239,7 @@
 
           rows.forEach(function(row) {
             var nameMatch = false;
-            for (var i = 0; i < 10; i++) {
+            for (var i = 0; i < 11; i++) {
               var nameCell = row.cells[i].textContent.toLowerCase();
               if (nameCell.indexOf(nameFilterValue) > -1) {
                 nameMatch = true;
@@ -241,7 +247,7 @@
               }
             }
 
-            var dateCell = row.cells[10].textContent;
+            var dateCell = row.cells[11].textContent;
             var dateMatch = dateCell === dateFilterValue || dateFilterValue === '';
 
             row.style.display = nameMatch && dateMatch ? '' : 'none';
@@ -275,6 +281,7 @@
     </script>
 
     <script>
+    /*
     document.addEventListener('DOMContentLoaded', function() {
         var rows = document.querySelectorAll('#myTable tbody tr');
 
@@ -298,8 +305,8 @@
             // Sort table by date (column index 3)
             sortTableByColumn(3);
         });
-    });
-</script>
+    });*/
+    </script>
     
     
 
