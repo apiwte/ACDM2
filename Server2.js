@@ -169,8 +169,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           Dest: body.Dest,
           date_: req.body.date_,
           SOBT: body.SOBT,
-          AOBT: ""
-          
+          AOBT: "",
+          createdAt: new Date()
           
         
       
@@ -234,10 +234,6 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           { $set: { "FlightNumber": req.body.FlightNumber,"EOBT": req.body.EOBT,"TOBT": req.body.TOBT,"ESBT": req.body.ESBT,"ASBT": req.body.ASBT,"AOBT": req.body.AOBT} }, // Update fields
           //{ returnDocument: 'after' } // Return the modified document
         );
-
-
-
-
 
 
         res.redirect('/');
@@ -327,11 +323,18 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
        // set up a listener when change events are emitted
        changeStream.on("change", next => {
+
+        
            // process any change event
            switch (next.operationType) {
                case 'insert':
-                   console.log(next.fullDocument);
-                   console.log('inserted')
+                   //console.log(next.fullDocument);
+                   //console.log('inserted')
+
+                   
+                   var updated = 'Data is updated.Please refresh.'
+
+                   io.emit('acdmData',updated)
       
 
 
@@ -344,11 +347,18 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
                    io.emit('acdmData',updated)
 
+                   break;
+
                    //const jsonString = JSON.stringify(next._id);
 
                    //io.emit('acdmData',jsonString)
                    //console.log('Data Updated')
                    //console.log(next._id)
+                case 'delete':
+                  var updated = 'Data is updated.Please refresh.'
+
+                  io.emit('acdmData',updated)
+
                    
 
            }

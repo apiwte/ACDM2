@@ -17,14 +17,14 @@
 <body class="p-5">
 
 
-    <form method="post" action="/update">
+    <form method="post" action="/update" >
         <div class="mb-3" >
             <label for="label1" class="form-group row"></label>
-            <input id="update_id" type="hidden" name="update_id"  value=<%= dataEdit[0]._id %> readonly class="form-control-plaintext" >
+            <input id="update_id" type="hidden" name="update_id"  value=<%= dataEdit[0]._id %> readonly class="form-control-plaintext">
         </div>
         <div class="mb-3">
           <label for="label2" class="form-label">Flight</label>
-          <input type="text" id="FlightNumber" name="FlightNumber"  value=<%= dataEdit[0].FlightNumber %> readonly class="form-control-plaintext" >
+          <input type="text" required id="FlightNumber" name="FlightNumber" pattern="[A-Z]{2}"  value=<%= dataEdit[0].FlightNumber %> readonly class="form-control-plaintext" >
         </div>
         <hr>
         <div class="mb-3">
