@@ -167,6 +167,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           Dest: body.Dest,
           date_: req.body.date_,
           SOBT: body.SOBT
+          EOBT: body.SOBT
         
       
         })
