@@ -17,12 +17,61 @@
 </head>
 <body class="p-4">
 
-    <!---<p><%= data2[0].rcr %></p>-->
+    <!---Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">BA Airport : Aerodrome Operations portal</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Input
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/grf">GRF</a></li>
+                  <li><a class="dropdown-item" href="/notam">NOTAM</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
+
+   
     <div class="container-fluid">
     <div class="row">
-
+            <table class="table"  id="myTable4">
+                <tr class="table-light">
+                <thead>
+                    <th scope="col" style="width: 10%">Flight</th>
+                    <th scope="col" style="width: 10%">Direction</th>
+                    <th scope="col" style="width: 10%">Stop</th>
+                    <th scope="col" >ST.</th>
+                </thead>
+                <tbody >
+                    <% data4.forEach(item => { %>
+                    <td><%= item.flight %></td>
+                    <td><%= item.dir %></td>
+                    <td><%= item.stop %></td>
+                    <td><%= item.st %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>  
     </div>
+    <a href="/flight" class="btn btn-primary">Submit Flight</a>
     <div class="row">
         <div class="col">
             <table class="table"  id="myTable2">
@@ -65,7 +114,7 @@
             <a href="/notam" class="btn btn-primary">Submit NOTAM</a>
     </div>
     </div>
-      </div>
+    </div>
 
     
 </body>

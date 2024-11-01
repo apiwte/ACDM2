@@ -39,6 +39,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     const db2 = client.db('data');
     const collection2 = db2.collection('grfths');
     const collection3 = db2.collection('notamths');
+    const collection4 = db2.collection('flightths');
 
     const flightschema = {
         airlines: String,
@@ -80,6 +81,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         
         data2 = await collection2.find().toArray(); // Retrieve all documents
         data3 = await collection3.find().toArray();
+        data4 = await collection4.find().toArray();
 
 
         //Sort data by createdAt
@@ -90,7 +92,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //const data2 = await rcr.find({});
         console.log(data2)
         
-        res.render(__dirname + '/views/dashboard.ejs', { data2 });
+        res.render(__dirname + '/views/dashboard.ejs', {  });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
@@ -222,6 +224,24 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
+    app.get('/flight',async(req,res)=>{
+
+      try {
+        
+        data4 = await collection4.find().toArray(); // Retrieve all documents
+
+        //const data = await flights.find({});
+        //console.log(data)
+        
+        res.render(__dirname + '/views/input_flight.ejs', { data4 });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+
+    })
+
     
 
     app.post('/insert', urlencodedParser, async (req, res) => {
@@ -291,6 +311,28 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           notam: body3.notam,
           eff: new Date(body3.eff),
           end: new Date(body3.end),
+          createdAt: new Date()      
+      
+        })
+
+        res.redirect('/');
+
+      } catch (error) {
+        console.error('Error insert data:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+
+    app.post('/insertflight', urlencodedParser, async (req, res) => {
+      try {
+
+        var body4 = req.body;       
+
+       insertoneflight = await collection4.insertOne({
+          flight: body4.flight,
+          dir: body4.dir,
+          stop: body4.stop,
+          st: body4.st,
           createdAt: new Date()      
       
         })
