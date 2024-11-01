@@ -54,7 +54,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     // Define a route to fetch data from MongoDB
 
     
-    app.get('/', async (req, res) => {
+    app.get('/acdm', async (req, res) => {
       try {
         
         data = await collection.find().toArray(); // Retrieve all documents
@@ -74,7 +74,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       }
     });
 
-    app.get('/dashboard', async (req, res) => {
+    app.get('/', async (req, res) => {
       try {
         
         data2 = await collection2.find().toArray(); // Retrieve all documents
