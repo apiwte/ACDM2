@@ -37,7 +37,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     const collection = db.collection('acdm'); // Update with your collection name
 
     const db2 = client.db('data');
-    const collection2 = db2.collection('grfths'); // Update with your collection name
+    const collection2 = db2.collection('grfths');
+    const collection3 = db2.collection('notamths');
 
     const flightschema = {
         airlines: String,
@@ -78,6 +79,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       try {
         
         data2 = await collection2.find().toArray(); // Retrieve all documents
+        data3 = await collection3.find().toArray();
 
 
         //Sort data by createdAt
@@ -202,6 +204,26 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
+    app.get('/notam',async(req,res)=>{
+
+      try {
+        
+        data3 = await collection3.find().toArray(); // Retrieve all documents
+
+        //const data = await flights.find({});
+        //console.log(data)
+        
+        res.render(__dirname + '/views/input_notam.ejs', { data3 });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+
+    })
+
+    
+
     app.post('/insert', urlencodedParser, async (req, res) => {
       try {
 
@@ -251,7 +273,29 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       
         })
 
-        res.redirect('/dashboard');
+        res.redirect('/');
+
+      } catch (error) {
+        console.error('Error insert data:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+
+    app.post('/insertnotam', urlencodedParser, async (req, res) => {
+      try {
+
+        var body3 = req.body;       
+
+       insertonenotam = await collection3.insertOne({
+          notamno: body3.notamno,
+          notam: body3.notam,
+          eff: new Date(body3.eff),
+          end: new Date(body3.end),
+          createdAt: new Date()      
+      
+        })
+
+        res.redirect('/');
 
       } catch (error) {
         console.error('Error insert data:', error);

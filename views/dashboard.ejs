@@ -21,13 +21,15 @@
 
     <div class="container-fluid">
     <div class="row">
+
+    </div>
+    <div class="row">
         <div class="col">
             <table class="table"  id="myTable2">
-                <thead>
                 <tr class="table-light">
+                <thead>
                     <th scope="col">RCR</th>
                     <th scope="col">Submit Time</th>
-                </tr>
                 </thead>
                 <tbody >
                     <% data2.forEach(item => { %>
@@ -40,7 +42,27 @@
             <a href="/grf" class="btn btn-primary">Submit GRF</a>
         </div>
         <div class="col">
-      Column
+            <table class="table"  id="myTable3">
+                <tr class="table-light">
+                <thead>
+                    <th scope="col">NOTAM No.</th>
+                    <th scope="col">NOTAM Text</th>
+                    <th scope="col">Effective</th>
+                    <th scope="col">Expire</th>
+                    <th scope="col">Updated at</th>
+                </thead>
+                <tbody >
+                    <% data3.forEach(item => { %>
+                    <td><%= item.notamno %></td>
+                    <td><%= item.notam %></td>
+                    <td><%= (item.eff).getHours(); %>:<%= (item.eff).getMinutes(); %>z - <%= (item.eff).toDateString();%></td>
+                    <td><%= (item.end).getHours(); %>:<%= (item.end).getMinutes(); %>z - <%= (item.end).toDateString();%></td>
+                    <td><%= (item.createdAt).getHours(); %>:<%= (item.createdAt).getMinutes(); %>LT - <%= (item.createdAt).toDateString(); %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <a href="/notam" class="btn btn-primary">Submit NOTAM</a>
     </div>
     </div>
       </div>
