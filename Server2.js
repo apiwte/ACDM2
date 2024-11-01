@@ -36,6 +36,9 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     const db = client.db('usm');
     const collection = db.collection('acdm'); // Update with your collection name
 
+    const db2 = client.db('data');
+    const collection2 = db2.collection('grfths'); // Update with your collection name
+
     const flightschema = {
         airlines: String,
         EOBT: String,
@@ -70,6 +73,30 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         res.status(500).send('Error retrieving data');
       }
     });
+
+    app.get('/dashboard', async (req, res) => {
+      try {
+        
+        data2 = await collection2.find().toArray(); // Retrieve all documents
+
+
+        //Sort data by createdAt
+        //data2.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+        data2.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        //data2.sort((a, b) => a.createdAt.toLowerCase().localeCompare(b.createdAt.toLowerCase()) );
+
+        //const data2 = await rcr.find({});
+        console.log(data2)
+        
+        res.render(__dirname + '/views/dashboard.ejs', { data2 });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+    });
+
+
 
     app.get('/edit/:thisid', async (req, res) => {
       try {
@@ -157,6 +184,24 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
+    app.get('/grf',async(req,res)=>{
+
+      try {
+        
+        data2 = await collection2.find().toArray(); // Retrieve all documents
+
+        //const data = await flights.find({});
+        //console.log(data)
+        
+        res.render(__dirname + '/views/input_grf.ejs', { data2 });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+
+    })
+
     app.post('/insert', urlencodedParser, async (req, res) => {
       try {
 
@@ -187,6 +232,26 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         console.log(dataNew)
 
         res.redirect('/');
+
+      } catch (error) {
+        console.error('Error insert data:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+
+    app.post('/insertgrf', urlencodedParser, async (req, res) => {
+      try {
+
+        var body2 = req.body;       
+
+       insertoneRCR = await collection2.insertOne({
+          utc: body2.utc,
+          rcr: body2.rcr,
+          createdAt: new Date()      
+      
+        })
+
+        res.redirect('/dashboard');
 
       } catch (error) {
         console.error('Error insert data:', error);
