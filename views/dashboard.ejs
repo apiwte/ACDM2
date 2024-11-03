@@ -44,44 +44,57 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
               </li>
             </ul>
+            <input input type="date"  id="datePicker"  class="form-control" type="date" style="width: 15%"  required >
           </div>
         </div>
       </nav>
 
+        
 
-   
+    <!---Table-->
     <div class="container-fluid">
     <div class="row">
             <table class="table"  id="myTable4">
                 <tr class="table-light">
                 <thead>
+                    <th scope="col" style="width: 10%">Flight Date</th>
                     <th scope="col" style="width: 10%">Flight</th>
                     <th scope="col" style="width: 10%">Direction</th>
                     <th scope="col" style="width: 10%">Stop</th>
                     <th scope="col" >ST.</th>
+                    <th scope="col" >Action</th>
                 </thead>
-                <tbody >
+                </tr>
+                <tbody id="tableFlight">
+                    <tr>
                     <% data4.forEach(item => { %>
+                    <td><%= item.flightdate %></td>
                     <td><%= item.flight %></td>
                     <td><%= item.dir %></td>
                     <td><%= item.stop %></td>
                     <td><%= item.st %></td>
+                    <td><a href="/editflight/<%=item._id%>" class="btn btn-primary">Edit</a> <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="btn btn-danger">Delete</a></td>
                     </tr>
                     <% }); %>
                 </tbody>
             </table>  
     </div>
     <a href="/flight" class="btn btn-primary">Submit Flight</a>
+
     <div class="row">
         <div class="col">
             <table class="table"  id="myTable2">
                 <tr class="table-light">
                 <thead>
+                    <th scope="col">GRF Date</th>
                     <th scope="col">RCR</th>
                     <th scope="col">Submit Time</th>
+                </tr>
                 </thead>
-                <tbody >
+                <tbody id="tableGRF">
+                  <tr>
                     <% data2.forEach(item => { %>
+                    <td><%= item.gdate %></td>
                     <td><%= item.utc %> <%= item.rcr %></td>
                     <td><%= (item.createdAt).getHours(); %>:<%= (item.createdAt).getMinutes(); %>LT - <%= (item.createdAt).toDateString(); %></td>
                     </tr>
@@ -100,7 +113,9 @@
                     <th scope="col">Expire</th>
                     <th scope="col">Updated at</th>
                 </thead>
-                <tbody >
+                </tr>
+                <tbody id="tableNotam">
+                    <tr>
                     <% data3.forEach(item => { %>
                     <td><%= item.notamno %></td>
                     <td><%= item.notam %></td>
@@ -115,6 +130,55 @@
     </div>
     </div>
     </div>
+
+
+    <script>
+
+      const datePicker = document.getElementById('datePicker');
+      
+
+      // Set the date picker to the current date
+      const today = new Date().toISOString().split('T')[0];
+      datePicker.value = today;
+
+      function filterRows(selectedDate,rowdate,filtable) {
+
+        const tableBody = document.getElementById(filtable);
+        const rows = tableBody.getElementsByTagName('tr');
+        
+
+          
+          // Show all rows if no date is selected
+          if (!selectedDate) {
+              Array.from(rows).forEach(row => row.style.display = '');
+              return;
+          }
+
+          // Filter rows based on the selected date
+          Array.from(rows).forEach(row => {
+              const dateCell = row.cells[rowdate].innerText;
+              if (dateCell === selectedDate) {
+                  row.style.display = ''; // Show row
+              } else {
+                  row.style.display = 'none'; // Hide row
+              }
+          });
+
+      }
+
+      // Initial filter when the page loads
+      filterRows(today,0,'tableFlight');
+      filterRows(today,0,'tableGRF');
+    
+
+      // Add change event listener to the date picker
+      datePicker.addEventListener('change', () => {
+          filterRows(datePicker.value,0,'tableFlight');
+          filterRows(datePicker.value,0,'tableGRF');
+      });
+  </script>
+
+
 
     
 </body>

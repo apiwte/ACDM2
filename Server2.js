@@ -287,6 +287,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         var body2 = req.body;       
 
        insertoneRCR = await collection2.insertOne({
+          gdate: body2.gdate,
           utc: body2.utc,
           rcr: body2.rcr,
           createdAt: new Date()      
@@ -329,6 +330,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         var body4 = req.body;       
 
        insertoneflight = await collection4.insertOne({
+          flightdate: body4.fdate,
           flight: body4.flight,
           dir: body4.dir,
           stop: body4.stop,
