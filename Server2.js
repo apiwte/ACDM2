@@ -8,11 +8,14 @@ const { MongoClient, Int32} = require("mongodb");
 const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 
+const session = require('express-session');
+const bcrypt = require('bcrypt');
+const flash = require('connect-flash');
+
 var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 let data
-
 
 
 http.listen(3000,()=> {
@@ -40,6 +43,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     const collection2 = db2.collection('grfths');
     const collection3 = db2.collection('notamths');
     const collection4 = db2.collection('flightths');
+    const collection5 = db2.collection('user');
 
     const flightschema = {
         airlines: String,
@@ -52,8 +56,98 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     }
 
     const flights = mongoose.model('ACDM',flightschema)
-
     // Define a route to fetch data from MongoDB
+
+    
+    // Set up session
+    app.use(session({
+      secret: 'yourSecretKey',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { maxAge: 30000 },
+      //cookie: { secure: false } // Change to true if using HTTPS
+    }));
+
+    // Set up flash messages
+    app.use(flash());
+
+    // Middleware for parsing form data
+    //app.use(express.urlencoded({ extended: true }));
+
+    // Middleware to check if user is authenticated
+    function checkAuthenticated(req, res, next) {
+      if (req.session.user) {
+        return next();
+      }
+      res.redirect('/login');
+    }
+
+      
+    // Middleware to check if user has one of the specified roles
+    function checkRoles(roles) {
+      return (req, res, next) => {
+        if (req.session.user && roles.includes(req.session.user.role)) {
+          return next();
+        }
+        res.redirect('/error'); // Redirect to an error page if the role is not allowed
+      };
+    }
+
+    // Routes
+    app.get('/login', async (req, res) => {
+      try {
+        
+        data5 = await collection5.find().toArray();
+
+
+        res.render(__dirname + '/views/login.ejs', {  });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+    });
+
+
+    app.post('/loging', urlencodedParser, async (req, res) => {
+
+      users = await collection5.find().toArray();
+
+      const { username, password } = req.body;
+
+      const user = users.find(u => u.username === username);
+
+      //console.log(user)
+
+      if (user && (password === user.password)) {
+        req.session.user = { id: user.id, username: user.username, role: user.role };
+        console.log(req.session.user)
+        return res.redirect('/');
+      } else {
+        req.flash('error', 'Invalid username or password');
+        res.redirect('/login');
+      }
+
+      
+    });
+
+    app.get('/logout', (req, res) => {
+      req.session.destroy(err => {
+        if (err) {
+          return res.redirect('/');
+        }
+        res.redirect('/login');
+      });
+    });
+    
+
+
+
+
+
+
+
+  
 
     
     app.get('/acdm', async (req, res) => {
@@ -66,7 +160,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         data.sort((a, b) => a.date_.toLowerCase().localeCompare(b.date_.toLowerCase()) || a.SOBT - b.SOBT);
 
         //const data = await flights.find({});
-        console.log(data)
+        //console.log(data)
         
         res.render(__dirname + '/views/index.ejs', { data });
 
@@ -76,7 +170,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       }
     });
 
-    app.get('/', async (req, res) => {
+    //Dashboard
+    app.get('/',checkAuthenticated, async (req, res) => {
       try {
         
         data2 = await collection2.find().toArray(); // Retrieve all documents
@@ -90,9 +185,9 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //data2.sort((a, b) => a.createdAt.toLowerCase().localeCompare(b.createdAt.toLowerCase()) );
 
         //const data2 = await rcr.find({});
-        console.log(data2)
+        //console.log(data2)
         
-        res.render(__dirname + '/views/dashboard.ejs', {  });
+        res.render(__dirname + '/views/dashboard.ejs', { user: req.session.user });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
@@ -213,7 +308,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         data3 = await collection3.find().toArray(); // Retrieve all documents
 
         //const data = await flights.find({});
-        //console.log(data)
+        
         
         res.render(__dirname + '/views/input_notam.ejs', { data3 });
 
@@ -224,7 +319,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
-    app.get('/flight',async(req,res)=>{
+    app.get('/flight',checkAuthenticated, checkRoles(['admin', 'user2']),async(req,res)=>{
 
       try {
         
@@ -285,6 +380,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       try {
 
         var body2 = req.body;       
+
 
        insertoneRCR = await collection2.insertOne({
           gdate: body2.gdate,

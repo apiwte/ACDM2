@@ -40,11 +40,39 @@
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Internal forms
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/grf">Maintenace request form</a></li>
+                  <li><a class="dropdown-item" href="/notam">ADP request form</a></li>
+                  <li><a class="dropdown-item" href="/notam">Wildlife record form</a></li>
+                  <li><a class="dropdown-item" href="/notam">Safety report</a></li>
+                  <li><a class="dropdown-item" href="/notam">GA/State Slot</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  External forms
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/grf">Drone flying request</a></li>
+                </ul>
+              </li>
               <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
               </li>
             </ul>
-            <input input type="date"  id="datePicker"  class="form-control" type="date" style="width: 15%"  required >
+            <span class="navbar-text">Username : <%= user.username%>  | role: <%= user.role %> </span>
+            <div class="d-flex flex-row-reverse bd-highlight">
+              <div class="p-2"><a href="/logout" class="btn btn-light">Log out</a></div>
+
+              <div class="p-2"><input input type="date"  id="datePicker"  class="form-control" type="date" style="width: 100%"  required ></div>
+            </div>
+
+            
+            
           </div>
         </div>
       </nav>
