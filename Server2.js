@@ -9,7 +9,6 @@ const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 
 const session = require('express-session');
-const bcrypt = require('bcrypt');
 const flash = require('connect-flash');
 
 var jsonParser = bodyParser.json()
