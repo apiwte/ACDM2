@@ -15,14 +15,23 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 </head>
-<body>
+<body class="p-5">
     <form method="post" action="/loging">
-        <div class="mb-3">
-            <label for="label1" class="form-label">Username</label>
-            <input type="text" id="username" name="username"  class="form-control"  required >
-            <label for="label1" class="form-label">Password</label>
-            <input type="password" id="password" name="password"  class="form-control"  required >
-        </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="card text-center" style="width: 18rem;">
+            <div class="card-header">
+              Login
+            </div>
+            <div class="card-body" >
+                <label for="label1" class="form-label">Username</label>
+                <input type="text" id="username" name="username"  class="form-control"  required >
+                <label for="label1" class="form-label">Password</label>
+                <input type="password" id="password" name="password"  class="form-control"  required >
+                <button type="submit" style="width: 200px;" class="btn btn-primary mt-3">Submit</button>
+            </div>
+            <div class="card-footer text-body-secondary">
+              
+            </div>
+          </div>
+
 </body>
 </html>
