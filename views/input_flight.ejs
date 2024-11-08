@@ -17,6 +17,8 @@
 </head>
 <body class="p-5">
 
+    <div class="card" style="width: 18rem;">
+    <div class="card-body">
     <form method="post" action="/insertflight">
         <div class="mb-3">
             <label for="label1" class="form-label">Flight Date</label>
@@ -29,9 +31,16 @@
             <input type="text" id="stop" name="stop" class="form-control"  required >
             <label for="label1" class="form-label">ST.</label>
             <input type="text" id="st" name="st" pattern="[0-9]{4}" class="form-control"  required >
+            <label for="label1" class="form-label">ET.</label>
+            <input type="text" id="et" name="et" pattern="[0-9]{4}" class="form-control" >
+            <label for="label1" class="form-label">AT.</label>
+            <input type="text" id="at" name="at" pattern="[0-9]{4}" class="form-control" >
+
 
         </div>
           <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
     
 </body>
 </html>

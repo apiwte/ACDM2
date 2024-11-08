@@ -63,7 +63,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       secret: 'yourSecretKey',
       resave: false,
       saveUninitialized: true,
-      cookie: { maxAge: 30000 },
+      //cookie: { maxAge: 30000 },
       //cookie: { secure: false } // Change to true if using HTTPS
     }));
 
@@ -239,6 +239,31 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         res.status(500).send('Error retrieving data');
       }
     });
+
+    app.get('/edit_flight/:thisid', async (req, res) => {
+      try {
+        
+        var ObjectId = require('mongodb').ObjectId; 
+        var id = req.params.thisid;       
+        var o_id = new ObjectId(id);
+
+        console.log(" o_id : ",o_id)
+        
+        myId = req.params.thisid
+
+        dataEdit = await collection4.find( {_id:o_id}  ).toArray(); // Retrieve data by id
+
+
+        console.log(" dataEdit : ",dataEdit)
+        
+        res.render(__dirname + '/views/edit_flight.ejs', { dataEdit });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+    });
+
 
     app.get('/delete/:thisid', async (req, res, next) => {
       try{
@@ -430,6 +455,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           dir: body4.dir,
           stop: body4.stop,
           st: body4.st,
+          et: body4.et,
+          at: body4.at,
           createdAt: new Date()      
       
         })
@@ -540,6 +567,28 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         );*/
 
         //res.redirect('/');
+      } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+
+    app.post('/updateflight', urlencodedParser, async (req, res) => {
+      try {
+
+
+        var ObjectId = require('mongodb').ObjectId; 
+        var id = req.body.update_id;       
+        var o_id = new ObjectId(id);
+
+        const updatedACDM = await collection4.findOneAndUpdate(
+          { _id: new ObjectId(req.body.update_id)}, // Filter based on _id
+          { $set: { "et": req.body.et,"at": req.body.at} }, // Update fields
+          //{ returnDocument: 'after' } // Return the modified document
+        );
+
+        res.redirect('/');
+
       } catch (error) {
         console.error('Error updating data:', error);
         res.status(500).send('Internal Server Error');

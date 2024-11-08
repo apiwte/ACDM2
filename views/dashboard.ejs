@@ -88,6 +88,8 @@
                     <th scope="col" style="width: 10%">Direction</th>
                     <th scope="col" style="width: 10%">Stop</th>
                     <th scope="col" >ST.</th>
+                    <th scope="col" >ET.</th>
+                    <th scope="col" >AT.</th>
                     <th scope="col" >Action</th>
                 </thead>
                 </tr>
@@ -99,7 +101,9 @@
                     <td><%= item.dir %></td>
                     <td><%= item.stop %></td>
                     <td><%= item.st %></td>
-                    <td><a href="/editflight/<%=item._id%>" class="btn btn-primary">Edit</a> <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="btn btn-danger">Delete</a></td>
+                    <td><%= item.et %></td>
+                    <td><%= item.at %></td>
+                    <td><a href="/edit_flight/<%=item._id%>" class="btn btn-primary">Edit</a> <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="btn btn-danger">Delete</a></td>
                     </tr>
                     <% }); %>
                 </tbody>
