@@ -173,9 +173,9 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     app.get('/',checkAuthenticated, async (req, res) => {
       try {
         
-        data2 = await collection2.find().toArray(); // Retrieve all documents
-        data3 = await collection3.find().toArray();
-        data4 = await collection4.find().toArray();
+        data2 = await collection2.find().toArray(); // Retrieve all documents Flight
+        data3 = await collection3.find().toArray(); // Retrieve all documents GRF
+        data4 = await collection4.find().toArray(); // Retrieve all documents NOTAM
 
 
         //Sort data by createdAt
@@ -185,6 +185,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         //const data2 = await rcr.find({});
         //console.log(data2)
+        console.log(req.session.user.role)
         
         res.render(__dirname + '/views/dashboard.ejs', { user: req.session.user });
 
@@ -457,6 +458,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           st: body4.st,
           et: body4.et,
           at: body4.at,
+          rm: body4.rm,
           createdAt: new Date()      
       
         })
@@ -583,7 +585,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         const updatedACDM = await collection4.findOneAndUpdate(
           { _id: new ObjectId(req.body.update_id)}, // Filter based on _id
-          { $set: { "et": req.body.et,"at": req.body.at} }, // Update fields
+          { $set: { "et": req.body.et,"at": req.body.at,"rm": req.body.rm} }, // Update fields
           //{ returnDocument: 'after' } // Return the modified document
         );
 
