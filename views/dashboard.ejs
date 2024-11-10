@@ -17,7 +17,7 @@
 </head>
 <body class="p-4">
 
-  
+  <% var text1 = "alert-primary" %>
   <% if(user.role == 'admin' ){ %><%buttonDel = 'btn btn-danger'%><% } else{ %>  <h1><%buttonDel = 'btn btn-danger btn disabled'%></h1><% } %>
 
     <!---Navbar-->
@@ -72,6 +72,12 @@
           </div>
         </div>
       </nav>
+
+      <div class="p-2" id="allDisplayText">
+        <div id="displayText" class="alert <%= text1%> role="alert">
+            Data is upto date! 
+        </div>
+    </div>
 
 
         
@@ -243,6 +249,56 @@
           window.location.reload();
         }
       });
+
+
+      //Socket.io
+      
+      src="/socket.io/socket.io.js"
+
+      /*
+      
+      html2 = 
+            `
+        
+            <div class="col-sm" id="date_">
+              <label for="dateFilter"></label>
+              <input class="form-control" value="2024-01-02" type="date" id="dateFilter">
+            </div>
+            
+            `
+        document.getElementById("date_").innerHTML = html2 */
+
+
+        var socket = io()
+        var html = ''
+        var updatedText = 'Test'
+        var box = document.querySelector('#allDisplayText')
+
+
+        socket.on('dataio', (newText) => {
+
+            const displayText = document.getElementById('allDisplayText')
+
+            html = 
+            `
+        
+            <div id="displayText" class="alert alert-warning" role="alert">
+                Data updated! Please refresh. 
+            </div>
+            
+            `
+
+            box.innerHTML = html
+
+            location.reload();
+
+            
+            
+
+
+        })
+
+      
   </script>
 
 

@@ -635,60 +635,89 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     try {
   
       await client.connect();
-      const database = client.db('usm');
-      const messages = database.collection('acdm');
-
-       // open a Change Stream on the "messages" collection
-       changeStream = messages.watch();
-
-       // set up a listener when change events are emitted
-       changeStream.on("change", next => {
-
-        
-           // process any change event
-           switch (next.operationType) {
-               case 'insert':
-                   //console.log(next.fullDocument);
-                   //console.log('inserted')
-
-                   
-                   var updated = 'Data is updated.Please refresh.'
-
-                   io.emit('acdmData',updated)
-      
+      //const database = client.db2('data');
+      //const messages = database.collection('flightths');
 
 
-                   break;
-               case 'update':
-                   //console.log(next.updateDescription.updatedFields);
-                   //console.log('updated')
 
-                   var updated = 'Data is updated.Please refresh.'
+      const database = client.db('data');
 
-                   io.emit('acdmData',updated)
+      const message1 = database.collection('flightths');
+      const message2 = database.collection('grfths');
 
-                   break;
 
-                   //const jsonString = JSON.stringify(next._id);
 
-                   //io.emit('acdmData',jsonString)
-                   //console.log('Data Updated')
-                   //console.log(next._id)
-                case 'delete':
-                  var updated = 'Data is updated.Please refresh.'
+      console.log('Socket')
 
-                  io.emit('acdmData',updated)
+      changest(message1)
+      changest(message2)
+  
 
-                   
 
-           }
-       });
   
     } catch {
+
+      console.log('No Socket')
   
       // Ensures that the client will close when you error
       await client.close();
     }
+  }
+
+  function changest (messages){
+
+           // open a Change Stream on the "messages" collection
+           changeStream = messages.watch();
+
+           // set up a listener when change events are emitted
+           changeStream.on("change", next => {
+    
+            
+               // process any change event
+               switch (next.operationType) {
+                   case 'insert':
+                       //console.log(next.fullDocument);
+                       console.log('inserted')
+    
+                       
+                       var updated = 'Data is updated.Please refresh.'
+    
+                       io.emit('dataio',updated)
+          
+    
+    
+                       break;
+                   case 'update':
+                       //console.log(next.updateDescription.updatedFields);
+                       console.log('updated')
+    
+                       var updated = 'Data is updated.Please refresh.'
+    
+                       io.emit('dataio',updated)
+    
+                       break;
+    
+                       //const jsonString = JSON.stringify(next._id);
+    
+                       //io.emit('acdmData',jsonString)
+                       //console.log('Data Updated')
+                       //console.log(next._id)
+                    case 'delete':
+                      var updated = 'Data is updated.Please refresh.'
+    
+                      io.emit('dataio',updated)
+    
+                       
+    
+               }
+           });
+
+
+
+
+
+
+
   }
   
   run().catch(console.dir);
