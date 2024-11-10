@@ -185,7 +185,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         //const data2 = await rcr.find({});
         //console.log(data2)
-        console.log(req.session.user.role)
+        //console.log(req.session.user.role)
         
         res.render(__dirname + '/views/dashboard.ejs', { user: req.session.user });
 
@@ -275,6 +275,30 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         console.log(o_id)
         dataDelete = await collection.findOneAndDelete(
+          {_id : o_id}
+
+
+        )
+
+        res.redirect('/');
+
+
+      }catch (err) {
+        console.error('Error Delete data:', err);
+        res.status(500).send('Error Delete data');
+      }
+      
+    });
+
+    app.get('/deleteFlight/:thisid', async (req, res, next) => {
+      try{
+
+        var ObjectId = require('mongodb').ObjectId; 
+        var id = req.params.thisid;       
+        var o_id = new ObjectId(id);
+
+        console.log(o_id)
+        dataDelete = await collection4.findOneAndDelete(
           {_id : o_id}
 
 
@@ -391,7 +415,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         }
         
-        console.log(dataNew)
+        //console.log(dataNew)
 
         res.redirect('/');
 
@@ -613,9 +637,6 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       await client.connect();
       const database = client.db('usm');
       const messages = database.collection('acdm');
-
-
-
 
        // open a Change Stream on the "messages" collection
        changeStream = messages.watch();

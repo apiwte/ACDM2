@@ -18,7 +18,7 @@
 <body class="p-4">
 
   
-  <% if(user.role == 'admin' || user.role =='airport'){ %><%buttonDel = 'btn btn-danger'%><% } else{ %>  <h1><%buttonDel = 'btn btn-danger btn disabled'%></h1><% } %>
+  <% if(user.role == 'admin' ){ %><%buttonDel = 'btn btn-danger'%><% } else{ %>  <h1><%buttonDel = 'btn btn-danger btn disabled'%></h1><% } %>
 
     <!---Navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -73,11 +73,13 @@
         </div>
       </nav>
 
+
         
 
-    <!---Table-->
+    <!---Table Flight-->
     <div class="container-fluid">
     <div class="row">
+      <p class="h5 pt-3">Flight</p>
             <table class="table"  id="myTable4">
                 <tr class="table-light">
                 <thead>
@@ -104,7 +106,7 @@
                     <td><%= item.at %></td>
                     <td><%= item.rm %></td>
                     <td><a href="/edit_flight/<%=item._id%>" class="btn btn-primary" aria-disabled="true">Edit</a>
-                      <a href="/delete/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="<%=buttonDel%>">Delete</a>
+                      <a href="/deleteFlight/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="<%=buttonDel%>">Delete</a>
                     </td>
                     </tr>
                     <% }); %>
@@ -112,9 +114,12 @@
             </table>  
     </div>
     <a href="/flight" class="btn btn-primary">Submit Flight</a>
+    <hr>
 
+    <!---Table GRF-->
     <div class="row">
-        <div class="col">
+        <div class="col-5">
+          <p class="h5 pt-3">GRF</p>
             <table class="table"  id="myTable2">
                 <tr class="table-light">
                 <thead>
@@ -128,40 +133,59 @@
                     <% data2.forEach(item => { %>
                     <td><%= item.gdate %></td>
                     <td><%= item.utc %> <%= item.rcr %></td>
-                    <td><%= (item.createdAt).getHours(); %>:<%= (item.createdAt).getMinutes(); %>LT - <%= (item.createdAt).toDateString(); %></td>
+                    <td class="table w-auto small"><%= (item.createdAt).getHours(); %>:<%= ((item.createdAt).getMinutes() < 10 ? '0' : '')+(item.createdAt).getMinutes(); %>LT - <%= (item.createdAt).toDateString(); %></td>
                     </tr>
                     <% }); %>
                 </tbody>
             </table>
             <a href="/grf" class="btn btn-primary">Submit GRF</a>
         </div>
+
+        <!---Table Board-->
         <div class="col">
-            <table class="table"  id="myTable3">
-                <tr class="table-light">
-                <thead>
-                    <th scope="col">NOTAM No.</th>
-                    <th scope="col">NOTAM Text</th>
-                    <th scope="col">Effective</th>
-                    <th scope="col">Expire</th>
-                    <th scope="col">Updated at</th>
-                </thead>
+          <div class="card" style="min-height: 12rem;">
+            <div class="card-body">
+              This is some text within a card body.
+            </div>
+          </div>
+
+    </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col">
+        <p class="h5 pt-3">NOTAM</p>
+        <table class="table"  id="myTable3">
+            <tr class="table-light">
+            <thead>
+                <th scope="col" style="width: 10%">NOTAM No.</th>
+                <th scope="col">NOTAM Text</th>
+                <th scope="col" style="width: 20%">Effective</th>
+                <th scope="col" style="width: 20%">Expire</th>
+                <th scope="col" style="width: 10%">Updated at</th>
+            </thead>
+            </tr>
+            <!---Table NOTAM-->
+            <tbody id="tableNotam">
+                <tr>
+                <% data3.forEach(item => { %>
+                <td><%= item.notamno %></td>
+                <td><%= item.notam %></td>
+                <td><%= (item.eff).getHours(); %>:<%= ((item.eff).getMinutes() < 10 ? '0' : '')+(item.eff).getMinutes(); %>LT - <%= (item.eff).toDateString();%></td>
+                <td><%= (item.end).getHours(); %>:<%= ((item.end).getMinutes() < 10 ? '0' : '')+(item.end).getMinutes(); %>LT- <%= (item.end).toDateString();%></td>
+                <td class="table w-auto small"><%= (item.createdAt).toDateString(); %></td>
                 </tr>
-                <tbody id="tableNotam">
-                    <tr>
-                    <% data3.forEach(item => { %>
-                    <td><%= item.notamno %></td>
-                    <td><%= item.notam %></td>
-                    <td><%= (item.eff).getHours(); %> : <%= ((item.eff).getMinutes() < 10 ? '0' : '')+(item.eff).getMinutes(); %>Z - <%= (item.eff).toDateString();%></td>
-                    <td><%= (item.end).getHours(); %> : <%= ((item.end).getMinutes() < 10 ? '0' : '')+(item.end).getMinutes(); %>Z- <%= (item.end).toDateString();%></td>
-                    <td><%= (item.createdAt).toDateString(); %></td>
-                    </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-            <a href="/notam" class="btn btn-primary">Submit NOTAM</a>
+                <% }); %>
+            </tbody>
+        </table>
+        <a href="/notam" class="btn btn-primary">Submit NOTAM</a>
+        
+        
+
+      </div>
     </div>
     </div>
-    </div>
+    
 
 
     <script>
@@ -207,6 +231,17 @@
       datePicker.addEventListener('change', () => {
           filterRows(datePicker.value,0,'tableFlight');
           filterRows(datePicker.value,0,'tableGRF');
+      });
+
+      //Reload page when press "back"
+      window.addEventListener( "pageshow", function ( event ) {
+        var historyTraversal = event.persisted || 
+        ( typeof window.performance != "undefined" && 
+            window.performance.navigation.type === 2 );
+        if ( historyTraversal ) {
+        // Handle page restore.
+          window.location.reload();
+        }
       });
   </script>
 
