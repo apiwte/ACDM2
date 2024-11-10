@@ -43,6 +43,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     const collection3 = db2.collection('notamths');
     const collection4 = db2.collection('flightths');
     const collection5 = db2.collection('user');
+    const collection6 = db2.collection('wtths');
 
     const flightschema = {
         airlines: String,
@@ -176,11 +177,13 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         data2 = await collection2.find().toArray(); // Retrieve all documents Flight
         data3 = await collection3.find().toArray(); // Retrieve all documents GRF
         data4 = await collection4.find().toArray(); // Retrieve all documents NOTAM
+        data6 = await collection6.find().toArray(); // Retrieve all documents Weather
 
 
         //Sort data by createdAt
         //data2.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
         data2.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        data6.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         //data2.sort((a, b) => a.createdAt.toLowerCase().localeCompare(b.createdAt.toLowerCase()) );
 
         //const data2 = await rcr.find({});
@@ -241,7 +244,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       }
     });
 
-    app.get('/edit_flight/:thisid', async (req, res) => {
+    app.get('/edit_flight/:thisid',checkAuthenticated, async (req, res) => {
       try {
         
         var ObjectId = require('mongodb').ObjectId; 
@@ -290,7 +293,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       
     });
 
-    app.get('/deleteFlight/:thisid', async (req, res, next) => {
+    app.get('/deleteFlight/:thisid',checkAuthenticated, async (req, res, next) => {
       try{
 
         var ObjectId = require('mongodb').ObjectId; 
@@ -332,7 +335,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
-    app.get('/grf',async(req,res)=>{
+    app.get('/grf',checkAuthenticated,async(req,res)=>{
 
       try {
         
@@ -350,7 +353,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
-    app.get('/notam',async(req,res)=>{
+    app.get('/notam',checkAuthenticated,async(req,res)=>{
 
       try {
         
@@ -368,7 +371,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
-    app.get('/flight',checkAuthenticated, checkRoles(['admin', 'user2']),async(req,res)=>{
+    app.get('/flight',checkAuthenticated, checkRoles(['admin','airsideths','airsidetdx']),async(req,res)=>{
 
       try {
         
@@ -378,6 +381,24 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //console.log(data)
         
         res.render(__dirname + '/views/input_flight.ejs', { data4 });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+
+    })
+
+    app.get('/wt',checkAuthenticated,async(req,res)=>{
+
+      try {
+        
+        data6 = await collection6.find().toArray(); // Retrieve all documents
+
+        //const data = await flights.find({});
+        //console.log(data)
+        
+        res.render(__dirname + '/views/input_weather.ejs', { data6 });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
@@ -425,7 +446,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       }
     });
 
-    app.post('/insertgrf', urlencodedParser, async (req, res) => {
+    app.post('/insertgrf', urlencodedParser,checkAuthenticated, async (req, res) => {
       try {
 
         var body2 = req.body;       
@@ -447,7 +468,28 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       }
     });
 
-    app.post('/insertnotam', urlencodedParser, async (req, res) => {
+    app.post('/insertwt', urlencodedParser,checkAuthenticated, async (req, res) => {
+      try {
+
+        var body6 = req.body;       
+
+
+       insertonewt = await collection6.insertOne({
+          hm: body6.hm,
+          lvp: body6.lvp,
+          createdAt: new Date()      
+      
+        })
+
+        res.redirect('/');
+
+      } catch (error) {
+        console.error('Error insert data:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+
+    app.post('/insertnotam', urlencodedParser,checkAuthenticated, async (req, res) => {
       try {
 
         var body3 = req.body;       
@@ -469,7 +511,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       }
     });
 
-    app.post('/insertflight', urlencodedParser, async (req, res) => {
+    app.post('/insertflight', urlencodedParser,checkAuthenticated, async (req, res) => {
       try {
 
         var body4 = req.body;       
@@ -599,7 +641,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       }
     });
 
-    app.post('/updateflight', urlencodedParser, async (req, res) => {
+    app.post('/updateflight', urlencodedParser,checkAuthenticated, async (req, res) => {
       try {
 
 
@@ -644,6 +686,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
       const message1 = database.collection('flightths');
       const message2 = database.collection('grfths');
+      const message3 = database.collection('notamths');
+      const message4 = database.collection('wtths');
 
 
 
@@ -651,6 +695,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
       changest(message1)
       changest(message2)
+      changest(message3)
+      changest(message4)
   
 
 

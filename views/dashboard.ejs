@@ -17,8 +17,20 @@
 </head>
 <body class="p-4">
 
+  <% let date = new Date() %>
   <% var text1 = "alert-primary" %>
-  <% if(user.role == 'admin' ){ %><%buttonDel = 'btn btn-danger'%><% } else{ %>  <h1><%buttonDel = 'btn btn-danger btn disabled'%></h1><% } %>
+  
+
+  <% if(user.role == 'admin' || user.role == 'airsideths' || user.role == 'airsideths'){ %>
+    <%buttonDel = 'btn btn-danger'%>
+      <% } else{ %>  <h1><%buttonDel = 'btn btn-danger btn disabled'%></h1><% } %>
+
+    <% if(user.role == 'admin' || user.role == 'metths' || user.role == 'metths'){ %>
+      <%buttonWT = 'btn btn-primary'%>
+        <% } else{ %>  <h1><%buttonWT = 'btn btn-primary btn disabled'%></h1><% } %>
+
+
+  
 
     <!---Navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -75,7 +87,7 @@
 
       <div class="p-2" id="allDisplayText">
         <div id="displayText" class="alert <%= text1%> role="alert">
-            Data is upto date! 
+            Data is upto date! at : <%= date.getHours(); %>:<%= (date.getMinutes() < 10 ? '0' : '')+date.getMinutes(); %>LT
         </div>
     </div>
 
@@ -124,7 +136,7 @@
 
     <!---Table GRF-->
     <div class="row">
-        <div class="col-5">
+        <div class="col">
           <p class="h5 pt-3">GRF</p>
             <table class="table"  id="myTable2">
                 <tr class="table-light">
@@ -148,10 +160,19 @@
         </div>
 
         <!---Table Board-->
+        <% if(data6[0].hm == '1' || data6[0].hm == '2'|| data6[0].hm == '3' || data6[0].lvp == '1'|| data6[0].lvp == '2'|| data6[0].lvp == '3' ){ %>
+          <%alertimg3 = "https://cdn-icons-png.flaticon.com/512/9356/9356599.png" %><% } else{ %>  
+            <%alertimg3 = "https://cdn-icons-png.flaticon.com/512/7084/7084512.png" %><% } %>
+
         <div class="col">
-          <div class="card" style="min-height: 12rem;">
-            <div class="card-body">
-              This is some text within a card body.
+          <p class="h5 pt-3">Infomation and alert</p>
+            <div class="card" style="min-height: 12rem;">
+              <div class="card-body">
+                <img src=<%=alertimg3%>  style="width:50px;height:50px;"> 
+                <h4 class="mt-3">Hazard Meteorological Level : <%=data6[0].hm%></h4>
+                <h4>Low-vis Level : <%=data6[0].lvp%></h4>
+                <h6>Update at : <%= data6[0].createdAt; %></h6>
+              <a href="/wt" class="<%=buttonWT%> mt-3">Submit Weather alert</a>
             </div>
           </div>
 
@@ -252,7 +273,6 @@
 
 
       //Socket.io
-      
       src="/socket.io/socket.io.js"
 
       /*
