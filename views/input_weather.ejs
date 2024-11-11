@@ -17,24 +17,28 @@
 </head>
 <body class="p-5">
 
-    <form method="post" action="/insertwt">
-        <div class="mb-3">
-            <label for="label1" class="form-label">Hazard Meteorological Level </label>
-            <select class="form-select" id="hm" name="hm" required>
-                <option value="0">HM : None</option>
-                <option value="1">HM : Level 1</option>
-                <option value="2">HM : Level 2</option>
-                <option value="3">HM : Level 3</option>
-              </select>
-            <label for="label1" class="form-label">Hazard Meteorological Level </label>
-            <select class="form-select" id="lvp" name="lvp" required>
-                <option value="0">LVP :None</option>
-                <option value="1">LVP : Level 1</option>
-                <option value="2">LVP : Level 2</option>
-                <option value="3">LVP : Level 3</option>
-            </select>
+    <div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <form method="post" action="/insertwt">
+            <div class="mb-3">
+                <label for="label1" class="form-label">Hazard Meteorological Level </label>
+                <select class="form-select" id="hm" name="hm" required>
+                    <option value="0">HM : None</option>
+                    <option value="1">HM : Level 1</option>
+                    <option value="2">HM : Level 2</option>
+                    <option value="3">HM : Level 3</option>
+                </select>
+                <label for="label1" class="form-label">Hazard Meteorological Level </label>
+                <select class="form-select" id="lvp" name="lvp" required>
+                    <option value="0">LVP :None</option>
+                    <option value="1">LVP : Level 1</option>
+                    <option value="2">LVP : Level 2</option>
+                    <option value="3">LVP : Level 3</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
     
 </body>
 </html>

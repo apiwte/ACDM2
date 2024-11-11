@@ -520,6 +520,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           flightdate: body4.fdate,
           flight: body4.flight,
           dir: body4.dir,
+          origin: body4.origin,
           stop: body4.stop,
           st: body4.st,
           et: body4.et,

@@ -18,19 +18,23 @@
 </head>
 <body class="p-5">
 
-    <form method="post" action="/insertnotam">
-        <div class="mb-3">
-            <label for="label1" class="form-label">No.</label>
-            <input type="text" id="notamno" name="notamno" class="form-control"  required >
-            <label for="label1" class="form-label">NOTAM</label>
-            <input type="text" id="notam" name="notam" class="form-control"  required >
-            <label for="label1" class="form-label">Effective</label>
-            <input input type="datetime-local" id="eff" name="eff" class="form-control" type="date"  required >
-            <label for="label1" class="form-label">Until</label>
-            <input input type="datetime-local" id="end" name="end" class="form-control" type="date"  required >
-            
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <form method="post" action="/insertnotam">
+                <div class="mb-3">
+                    <label for="label1" class="form-label">No.</label>
+                    <input type="text" id="notamno" name="notamno" class="form-control"  required >
+                    <label for="label1" class="form-label">NOTAM</label>
+                    <input type="text" id="notam" name="notam" class="form-control"  required >
+                    <label for="label1" class="form-label">Effective</label>
+                    <input input type="datetime-local" id="eff" name="eff" class="form-control" type="date"  required >
+                    <label for="label1" class="form-label">Until</label>
+                    <input input type="datetime-local" id="end" name="end" class="form-control" type="date"  required >
+                    
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
         </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 
          
 

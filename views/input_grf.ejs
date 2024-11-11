@@ -17,16 +17,108 @@
 </head>
 <body class="p-5">
 
+    <div class="card" style="width: 18rem;">
+    <div class="card-body">
     <form method="post" action="/insertgrf">
         <div class="mb-3">
             <label for="label1" class="form-label">GRF Date</label>
             <input input type="date" id="gdate" name="gdate" class="form-control" type="date"  required >
+
+
+            <label for="label1" class="form-label">RCR</label>
+            <input type="text" id="rcr" name="rcr" class="form-control bg-info text-dark"  required >
+            
+
             <label for="label1" class="form-label">Time(UTC)</label>
             <input type="text" id="utc" name="utc" pattern="[0-9]{4}" class="form-control"  required >
-            <label for="label1" class="form-label">RCR</label>
-            <input type="text" id="rcr" name="rcr" pattern=".{5,5}" class="form-control"  required >
+
+            <label for="label1" class="form-label">Runway</label>
+            <input type="text" id="rwy" name="rwy" pattern=".{2,2}" class="form-control"  required >
+            <hr>
+
+
+            <label for="label1" class="form-label">RCAM 1</label>
+            <select class="form-select" id="rcam1" name="rcam1" required>
+                <option value="6">6</option>
+                <option value="5">5</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+              </select>
+
+            <label for="label1" class="form-label">RCAM 2</label>
+            <select class="form-select" id="rcam2" name="rcam2" required>
+                <option value="6">6</option>
+                <option value="5">5</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+            </select>
+
+            <label for="label1" class="form-label">RCAM 3</label>
+            <select class="form-select" id="rcam3" name="rcam3" required>     
+                <option value="6">6</option>
+                <option value="5">5</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                </select>
+            <hr>
+
+            <label for="label1" class="form-label">Coverage 1</label>
+            <select class="form-select" id="cov1" name="cov1" required>     
+                <option value="100">100</option>
+                <option value="75">75</option>
+                <option value="50">50</option>
+                <option value="25">25</option>
+            </select>
+
+            <label for="label1" class="form-label">Coverage 2</label>
+            <select class="form-select" id="cov2" name="cov2" required>     
+                <option value="100">100</option>
+                <option value="75">75</option>
+                <option value="50">50</option>
+                <option value="25">25</option>
+            </select>
+
+            <label for="label1" class="form-label">Coverage 3</label>
+            <select class="form-select" id="cov3" name="cov3" required>     
+                <option value="100">100</option>
+                <option value="75">75</option>
+                <option value="50">50</option>
+                <option value="25">25</option>
+            </select>
+
+            <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
+                <label class="form-check-label" for="flexCheckDefault" >
+                    Checked
+                </label>
+            </div>
+
         </div>
           <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    </div>
+
+
+    <script>
+
+        const inputTarget = document.getElementById('rcr');
     
+        addEventListener("change", (event) => {
+
+            inputTarget.value =  utc.value +' '+ rwy.value +' '+  rcam1.value +'/'+ rcam2.value +'/'+ rcam3.value +' '+  cov1.value +'/'+ cov2.value +'/'+ cov3.value
+
+        });
+
+    
+    /*
+    input1.addEventListener('input', (event) => {
+        inputTarget.value = event.target.value;
+    });
+
+    */
+
+    
+    </script>
+
 </body>
 </html>

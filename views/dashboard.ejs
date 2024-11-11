@@ -52,7 +52,7 @@
                   <li><a class="dropdown-item" href="/grf">GRF</a></li>
                   <li><a class="dropdown-item" href="/notam">NOTAM</a></li>
                   <li><a class="dropdown-item disabled" >AD Announcement (Non-NOTAM)</a></li>
-                  <li><a class="dropdown-item" href="/notam">Adverse weather/Low-vis</a></li>
+                  <li><a class="dropdown-item" href="/wt">Adverse weather/Low-vis</a></li>
                 </ul>
               </li>
               <li class="nav-item dropdown">
@@ -60,11 +60,11 @@
                   Internal forms
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/grf">Maintenace request form</a></li>
-                  <li><a class="dropdown-item disabled" href="/notam">ADP request form</a></li>
-                  <li><a class="dropdown-item disabled" href="/notam">Wildlife record form</a></li>
-                  <li><a class="dropdown-item disabled" href="/notam">Safety report</a></li>
-                  <li><a class="dropdown-item disabled" href="/notam">GA/State Slot</a></li>
+                  <li><a class="dropdown-item disabled" href="/">Maintenace request form</a></li>
+                  <li><a class="dropdown-item disabled" href="/">ADP request form</a></li>
+                  <li><a class="dropdown-item disabled" href="/">Wildlife record form</a></li>
+                  <li><a class="dropdown-item disabled" href="/">Safety report</a></li>
+                  <li><a class="dropdown-item disabled" href="/">GA/State Slot</a></li>
                 </ul>
               </li>
               <li class="nav-item dropdown">
@@ -87,7 +87,7 @@
 
       <div class="p-2" id="allDisplayText">
         <div id="displayText" class="alert <%= text1%> role="alert">
-            Data is upto date! at : <%= date.getHours(); %>:<%= (date.getMinutes() < 10 ? '0' : '')+date.getMinutes(); %>LT
+            <h4>Data is upto date! </h4> Refresh at : <%= date%>
         </div>
     </div>
 
@@ -104,7 +104,8 @@
                     <th scope="col" style="width: 10%">Flight Date</th>
                     <th scope="col" style="width: 10%">Flight</th>
                     <th scope="col" style="width: 10%">Direction</th>
-                    <th scope="col" style="width: 10%">Stop</th>
+                    <th scope="col" style="width: 10%">Airport</th>
+                    <th scope="col" style="width: 10%">From/To</th>
                     <th scope="col" style="width: 10%">STA/STD</th>
                     <th scope="col" style="width: 10%">ETA/ETD(TOBT)</th>
                     <th scope="col" style="width: 10%">ATA/ATD</th>
@@ -118,6 +119,7 @@
                     <td><%= item.flightdate %></td>
                     <td><%= item.flight %></td>
                     <td><%= item.dir %></td>
+                    <td><%= item.origin %></td>
                     <td><%= item.stop %></td>
                     <td><%= item.st %></td>
                     <td><%= item.et %></td>
@@ -150,8 +152,8 @@
                   <tr>
                     <% data2.forEach(item => { %>
                     <td><%= item.gdate %></td>
-                    <td><%= item.utc %> <%= item.rcr %></td>
-                    <td class="table w-auto small"><%= (item.createdAt).getHours(); %>:<%= ((item.createdAt).getMinutes() < 10 ? '0' : '')+(item.createdAt).getMinutes(); %>LT - <%= (item.createdAt).toDateString(); %></td>
+                    <td><%= item.rcr %></td>
+                    <td class="table w-auto small"><%= item.createdAt%></td>
                     </tr>
                     <% }); %>
                 </tbody>

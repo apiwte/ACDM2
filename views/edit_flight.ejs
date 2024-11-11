@@ -21,19 +21,19 @@
                 <div class="mb-3">
                     <label for="label1" class="form-label"></label>
                     <input id="update_id" type="hidden" name="update_id"  value=<%= dataEdit[0]._id %> readonly class="form-control-plaintext" >
-                    
                     <label for="label1" class="form-label">Flight</label>
                     <input type="text" id="flight" name="flight"  value=<%= dataEdit[0].flight %> readonly class="form-control-plaintext" >
-
                     <label for="label1" class="form-label">Direction</label>
                     <input type="text" id="dir" name="dir" value=<%= dataEdit[0].dir %> readonly class="form-control-plaintext"  >
-                    <label for="label1" class="form-label">Stop</label>
+                    <label for="label1" class="form-label">Origin</label>
+                    <input type="text" id="origin" name="origin" value=<%= dataEdit[0].origin %> readonly class="form-control-plaintext" >
+                    <label for="label1" class="form-label">From/To</label>
                     <input type="text" id="stop" name="stop" value=<%= dataEdit[0].stop %> readonly class="form-control-plaintext" >
-                    <label for="label1" class="form-label">ST.</label>
+                    <label for="label1" class="form-label">STA/STD</label>
                     <input type="text" id="st" name="st" value=<%= dataEdit[0].st %> readonly class="form-control-plaintext"  >
-                    <label for="label1" class="form-label">ET.</label>
+                    <label for="label1" class="form-label">ETA/ETD(TOBT)</label>
                     <input type="text" id="et" name="et" pattern="[0-9]{4}" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].et %> >
-                    <label for="label1" class="form-label">AT.</label>
+                    <label for="label1" class="form-label">ATA/ATD</label>
                     <input type="text" id="at" name="at" pattern="[0-9]{4}" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].at %> >
                     <label for="label1" class="form-label">Remark</label>
                     <textarea class="form-control" id="rm" name="rm" rows="3" ><%= dataEdit[0].rm %></textarea>
