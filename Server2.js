@@ -477,6 +477,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
        insertonewt = await collection6.insertOne({
           hm: body6.hm,
           lvp: body6.lvp,
+          winfo: body6.winfo,
           createdAt: new Date()      
       
         })
@@ -522,6 +523,8 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           dir: body4.dir,
           origin: body4.origin,
           stop: body4.stop,
+          actype: body4.actype,
+          reg: body4.reg,
           st: body4.st,
           et: body4.et,
           at: body4.at,
