@@ -120,7 +120,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       //console.log(user)
 
       if (user && (password === user.password)) {
-        req.session.user = { id: user.id, username: user.username, role: user.role };
+        req.session.user = { id: user.id, username: user.username, role: user.role, envi: user.envi};
         console.log(req.session.user)
         return res.redirect('/');
       } else {
@@ -189,7 +189,12 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //const data2 = await rcr.find({});
         //console.log(data2)
         //console.log(req.session.user.role)
-        
+
+        data6THS = data6.filter(data6_ => data6_.origin === "THS");
+        data6TDX = data6.filter(data6_ => data6_.origin === "TDX");
+        //console.log(data6THS);
+
+
         res.render(__dirname + '/views/dashboard.ejs', { user: req.session.user });
 
       } catch (err) {
@@ -317,6 +322,29 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
       
     });
 
+    app.get('/deleteNOTAM/:thisid',checkAuthenticated, async (req, res, next) => {
+      try{
+
+        var ObjectId = require('mongodb').ObjectId; 
+        var id = req.params.thisid;       
+        var o_id = new ObjectId(id);
+
+        console.log(o_id)
+        dataDelete = await collection3.findOneAndDelete(
+          {_id : o_id}
+
+        )
+
+        res.redirect('/');
+
+
+      }catch (err) {
+        console.error('Error Delete data:', err);
+        res.status(500).send('Error Delete data');
+      }
+      
+    });
+
     app.get('/inputnew',async(req,res)=>{
 
       try {
@@ -335,7 +363,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
-    app.get('/grf',checkAuthenticated,async(req,res)=>{
+    app.get('/grf',checkAuthenticated, checkRoles(['admin','airside']),async(req,res)=>{
 
       try {
         
@@ -344,7 +372,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //const data = await flights.find({});
         //console.log(data)
         
-        res.render(__dirname + '/views/input_grf.ejs', { data2 });
+        res.render(__dirname + '/views/input_grf.ejs', { data2, user: req.session.user });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
@@ -353,7 +381,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
-    app.get('/notam',checkAuthenticated,async(req,res)=>{
+    app.get('/notam',checkAuthenticated, checkRoles(['admin','airside']),async(req,res)=>{
 
       try {
         
@@ -362,7 +390,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //const data = await flights.find({});
         
         
-        res.render(__dirname + '/views/input_notam.ejs', { data3 });
+        res.render(__dirname + '/views/input_notam.ejs', { data3, user: req.session.user });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
@@ -371,7 +399,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
-    app.get('/flight',checkAuthenticated, checkRoles(['admin','airsideths','airsidetdx']),async(req,res)=>{
+    app.get('/flight',checkAuthenticated, checkRoles(['admin','airside']),async(req,res)=>{
 
       try {
         
@@ -380,7 +408,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //const data = await flights.find({});
         //console.log(data)
         
-        res.render(__dirname + '/views/input_flight.ejs', { data4 });
+        res.render(__dirname + '/views/input_flight.ejs', { data4 , user: req.session.user });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
@@ -389,7 +417,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
-    app.get('/wt',checkAuthenticated,async(req,res)=>{
+    app.get('/wt',checkAuthenticated, checkRoles(['admin','met']),async(req,res)=>{
 
       try {
         
@@ -398,7 +426,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //const data = await flights.find({});
         //console.log(data)
         
-        res.render(__dirname + '/views/input_weather.ejs', { data6 });
+        res.render(__dirname + '/views/input_weather.ejs', { data6 , user: req.session.user });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
@@ -454,6 +482,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
        insertoneRCR = await collection2.insertOne({
           gdate: body2.gdate,
+          origin: body2.origin,
           utc: body2.utc,
           rcr: body2.rcr,
           createdAt: new Date()      
@@ -475,6 +504,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
 
        insertonewt = await collection6.insertOne({
+          origin: body6.origin,
           hm: body6.hm,
           lvp: body6.lvp,
           winfo: body6.winfo,
@@ -497,7 +527,9 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
        insertonenotam = await collection3.insertOne({
           notamno: body3.notamno,
+          origin: body3.origin,
           notam: body3.notam,
+          rm: body3.rm,
           eff: new Date(body3.eff),
           end: new Date(body3.end),
           createdAt: new Date()      
@@ -655,7 +687,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         const updatedACDM = await collection4.findOneAndUpdate(
           { _id: new ObjectId(req.body.update_id)}, // Filter based on _id
-          { $set: { "et": req.body.et,"at": req.body.at,"rm": req.body.rm} }, // Update fields
+          { $set: { "et": req.body.et,"at": req.body.at,"bay": req.body.bay,"rm": req.body.rm} }, // Update fields
           //{ returnDocument: 'after' } // Return the modified document
         );
 

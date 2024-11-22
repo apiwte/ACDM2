@@ -23,15 +23,18 @@
         <div class="mb-3">
             <label for="label1" class="form-label">GRF Date</label>
             <input input type="date" id="gdate" name="gdate" class="form-control" type="date"  required >
-
-
+            <label for="label1" class="form-label">Airport</label>
+              <% if (user.envi === 'T') { %>
+                  <input type="text" id="origin" name="origin"  class="form-control" required >
+                <% } else if (user.envi === 'THS') { %>
+                  <input type="text" id="origin" name="origin" value="THS" class="form-control" readonly required >
+                <% } else if (user.envi === 'TDX') { %>
+                  <input type="text" id="origin" name="origin" value="THS" class="form-control" readonly required >
+                <% } %>
             <label for="label1" class="form-label">RCR</label>
             <input type="text" id="rcr" name="rcr" class="form-control bg-info text-dark"  required >
-            
-
             <label for="label1" class="form-label">Time(UTC)</label>
             <input type="text" id="utc" name="utc" pattern="[0-9]{4}" class="form-control"  required >
-
             <label for="label1" class="form-label">Runway</label>
             <input type="text" id="rwy" name="rwy" pattern=".{2,2}" class="form-control"  required >
             <hr>

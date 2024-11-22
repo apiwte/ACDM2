@@ -25,19 +25,30 @@
     <% data6[0] = '' } %>
 
 
-
-    
-
-  
-
-  <% if(user.role == 'admin' || user.role == 'airsideths' || user.role == 'airsideths'){ %>
+  <% if(user.role == 'admin' || user.role == 'airside'){ %>
     <%buttonDel = 'btn btn-danger'%>
       <% } else{ %>  <h1><%buttonDel = 'btn btn-danger btn disabled'%></h1><% } %>
 
-    <% if(user.role == 'admin' || user.role == 'metths' || user.role == 'metths'){ %>
-      <%buttonWT = 'btn btn-primary'%>
-        <% } else{ %>  <h1><%buttonWT = 'btn btn-primary btn disabled'%></h1><% } %>
+  <% if(user.role == 'admin' || user.role == 'airside'){ %>
+    <%buttonFlight = 'btn btn-primary'%>
+      <% } else{ %>  <h1><%buttonFlight = 'btn btn-primary btn disabled'%></h1><% } %>
 
+  <% if(user.role == 'admin' || user.role == 'airside'){ %>
+    <%buttonGRF = 'btn btn-primary'%>
+      <% } else{ %>  <h1><%buttonGRF = 'btn btn-primary btn disabled'%></h1><% } %>
+
+  <% if(user.role == 'admin' || user.role == 'met'){ %>
+    <%buttonWT = 'btn btn-primary'%>
+      <% } else{ %>  <h1><%buttonWT = 'btn btn-primary btn disabled'%></h1><% } %>
+
+
+  <% if (user.envi === 'T') { %>
+    <% var envitext = "ALL" %>
+  <% } else if (user.envi === 'THS') { %>
+    <% var envitext = "THS-Sukhothai" %>
+  <% } else if (user.envi === 'TDX') { %>
+    <% var envitext = "TDX-Trat" %>
+  <% } %>
 
   
 
@@ -85,7 +96,7 @@
                 </ul>
               </li>
             </ul>
-            <span class="navbar-text">Username : <%= user.username%>  | role: <%= user.role %></span>
+            <span class="navbar-text">Username : <%= user.username%>  | role: <%= user.role %> | environment: <%=envitext%></span>
             <div class="d-flex flex-row-reverse bd-highlight">
               <div class="p-2"><a href="/logout" class="btn btn-light">Log out</a></div>
               <div class="p-2"><input input type="date"  id="datePicker"  class="form-control" type="date" style="width: 100%"  required ></div>
@@ -96,7 +107,7 @@
 
       <div class="p-2" id="allDisplayText">
         <div id="displayText" class="alert <%= text1%> role="alert">
-            <h4>Data is upto date! </h4> Refresh at : <%= date%>
+             Refreshed at : <%= date%>
         </div>
     </div>
 
@@ -107,6 +118,7 @@
     <div class="container-fluid">
     <div class="row">
       <p class="h5 pt-3">Flight</p>
+      <h6><%=envitext%></h6>
             <table class="table"  id="myTable4">
                 <tr class="table-light">
                 <thead>
@@ -117,6 +129,7 @@
                     <th scope="col" style="width: 5%">From/To</th>
                     <th scope="col" style="width: 5%">A/C Type</th>
                     <th scope="col" style="width: 5%">Reg</th>
+                    <th scope="col" style="width: 5%">Bay</th>
                     <th scope="col" style="width: 10%">STA/STD</th>
                     <th scope="col" style="width: 10%">ETA/ETD(TOBT)</th>
                     <th scope="col" style="width: 10%">ATA/ATD</th>
@@ -134,6 +147,7 @@
                     <td><%= item.stop %></td>
                     <td><%= item.actype %></td>
                     <td><%= item.reg %></td>
+                    <td><%= item.bay %></td>
                     <td><%= item.st %></td>
                     <td><%= item.et %></td>
                     <td><%= item.at %></td>
@@ -146,17 +160,19 @@
                 </tbody>
             </table>  
     </div>
-    <a href="/flight" class="btn btn-primary">Submit Flight</a>
+    <a href="/flight" class="<%=buttonWT%>" >Submit Flight</a>
     <hr>
 
     <!---Table GRF-->
     <div class="row">
         <div class="col">
           <p class="h5 pt-3">GRF</p>
+          <h6><%=envitext%></h6>
             <table class="table"  id="myTable2">
                 <tr class="table-light">
                 <thead>
                     <th scope="col">GRF Date</th>
+                    <th scope="col">Airport</th>
                     <th scope="col">RCR</th>
                     <th scope="col">Submit Time</th>
                 </tr>
@@ -165,13 +181,14 @@
                   <tr>
                     <% data2.forEach(item => { %>
                     <td><%= item.gdate %></td>
+                    <td><%= item.origin %></td>
                     <td><%= item.rcr %></td>
                     <td class="table w-auto small"><%= item.createdAt%></td>
                     </tr>
                     <% }); %>
                 </tbody>
             </table>
-            <a href="/grf" class="btn btn-primary">Submit GRF</a>
+            <a href="/grf" class="<%=buttonGRF%>">Submit GRF</a>
         </div>
 
         <!---Table Board-->
@@ -180,43 +197,72 @@
             <%alertimg3 = "https://cdn-icons-png.flaticon.com/512/7084/7084512.png" %><% } %>
 
         <div class="col">
-          <p class="h5 pt-3">Infomation and alert</p>
+          <p class="h5 pt-3">Information and alert</p>
+          <h6><%=envitext%></h6>
+          <% if (user.envi === 'THS' || user.envi === 'T' ) { %>
             <div class="card" style="min-height: 12rem;">
               <div class="card-body">
+                <h5>THS-Sukhothai</h5>
                 <img src=<%=alertimg3%>  style="width:50px;height:50px;"> 
-                <h4 class="mt-3">Hazard Meteorological Level : <%=data6[0].hm%></h4>
-                <h4>Low-vis Level : <%=data6[0].lvp%></h4>
-                <h4>Weather info. : <%=data6[0].winfo%></h4>
-                <h6>Update at : <%= data6[0].createdAt; %></h6>
-              <a href="/wt" class="<%=buttonWT%> mt-3">Submit Weather alert</a>
+                <h4 class="mt-3">Hazard Meteorological Level : <%=data6THS[0].hm%></h4>
+                <h4>Low-vis Level : <%=data6THS[0].lvp%></h4>
+                <h4>Weather info. : <%=data6THS[0].winfo%></h4>
+                <h6>Update at : <%= data6THS[0].createdAt; %></h6>
             </div>
           </div>
+          <% } else { %>
+            <div></div>
+          <% } %>
+          <br>
+
+          <% if (user.envi === 'TDX' || user.envi === 'T' ) { %>
+          <div class="card" style="min-height: 12rem;">
+            <div class="card-body">
+              <h5>TDX-Trat</h5>
+              <img src=<%=alertimg3%>  style="width:50px;height:50px;"> 
+              <h4 class="mt-3">Hazard Meteorological Level : <%=data6TDX[0].hm%></h4>
+              <h4>Low-vis Level : <%=data6TDX[0].lvp%></h4>
+              <h4>Weather info. : <%=data6TDX[0].winfo%></h4>
+              <h6>Update at : <%= data6TDX[0].createdAt; %></h6>
+          </div>
+        </div>
+        <% } else { %>
+          <div></div>
+        <% } %>
+      <a href="/wt" class="<%=buttonWT%> mt-3">Submit Weather alert</a>
 
     </div>
     </div>
     <hr>
     <div class="row">
       <div class="col">
-        <p class="h5 pt-3">NOTAM</p>
+        <p class="h5 pt-3">NOTAM (THS and TDX)</p>
         <table class="table"  id="myTable3">
             <tr class="table-light">
             <thead>
+                <th scope="col" style="width: 10%">Airport</th>
                 <th scope="col" style="width: 10%">NOTAM No.</th>
                 <th scope="col">NOTAM Text</th>
+                <th scope="col">Remark</th>
                 <th scope="col" style="width: 20%">Effective</th>
                 <th scope="col" style="width: 20%">Expire</th>
                 <th scope="col" style="width: 10%">Updated at</th>
+                <th scope="col" >Action</th>
             </thead>
             </tr>
             <!---Table NOTAM-->
             <tbody id="tableNotam">
                 <tr>
                 <% data3.forEach(item => { %>
+                <td><b><%= item.origin %></b></td>
                 <td><%= item.notamno %></td>
                 <td><%= item.notam %></td>
+                <td><%= item.rm %></td>
                 <td><%= (item.eff).getHours(); %>:<%= ((item.eff).getMinutes() < 10 ? '0' : '')+(item.eff).getMinutes(); %>LT - <%= (item.eff).toDateString();%></td>
                 <td><%= (item.end).getHours(); %>:<%= ((item.end).getMinutes() < 10 ? '0' : '')+(item.end).getMinutes(); %>LT- <%= (item.end).toDateString();%></td>
                 <td class="table w-auto small"><%= (item.createdAt).toDateString(); %></td>
+                <td><a href="/deleteNOTAM/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="<%=buttonDel%>">Delete</a>
+                </td>
                 </tr>
                 <% }); %>
             </tbody>
@@ -234,47 +280,67 @@
     <script>
 
       const datePicker = document.getElementById('datePicker');
+      const selected = document.getElementById('enviselect');
       
 
       // Set the date picker to the current date
       const today = new Date().toISOString().split('T')[0];
       datePicker.value = today;
 
-      function filterRows(selectedDate,rowdate,filtable) {
+      
+
+      function filterRows(selectedDate,rowdate,filtable,rowenv) {
 
         const tableBody = document.getElementById(filtable);
         const rows = tableBody.getElementsByTagName('tr');
-        
 
-          
+        const envi = "<%= user.envi %>";
+        
+ 
           // Show all rows if no date is selected
+          /*
           if (!selectedDate) {
               Array.from(rows).forEach(row => row.style.display = '');
               return;
-          }
+          }*/
 
           // Filter rows based on the selected date
           Array.from(rows).forEach(row => {
+             
               const dateCell = row.cells[rowdate].innerText;
-              if (dateCell === selectedDate) {
-                  row.style.display = ''; // Show row
+              const envCell = row.cells[rowenv].innerText;
+              
+              const checkEnv = envCell.includes(envi);
+
+              if (dateCell === selectedDate && checkEnv) {
+                    row.style.display = ''; // Show row
               } else {
                   row.style.display = 'none'; // Hide row
               }
-          });
+          });  
 
       }
 
       // Initial filter when the page loads
-      filterRows(today,0,'tableFlight');
-      filterRows(today,0,'tableGRF');
+      filterRows(today,0,'tableFlight',3);
+      filterRows(today,0,'tableGRF',1);
     
 
       // Add change event listener to the date picker
       datePicker.addEventListener('change', () => {
-          filterRows(datePicker.value,0,'tableFlight');
-          filterRows(datePicker.value,0,'tableGRF');
+          filterRows(datePicker.value,0,'tableFlight',3);
+          filterRows(datePicker.value,0,'tableGRF',1);
       });
+
+      // Add change event listener to the selected envi
+      
+      /*
+      selected.addEventListener('change', () => {
+          filterRows(datePicker.value,0,'tableFlight',3);
+          filterRows(datePicker.value,0,'tableGRF',3);
+      });*/
+
+      
 
       //Reload page when press "back"
       window.addEventListener( "pageshow", function ( event ) {

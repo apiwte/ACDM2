@@ -21,6 +21,14 @@
     <div class="card-body">
         <form method="post" action="/insertwt">
             <div class="mb-3">
+                <label for="label1" class="form-label">Airport</label>
+                <% if (user.envi === 'T') { %>
+                    <input type="text" id="origin" name="origin"  class="form-control" required >
+                  <% } else if (user.envi === 'THS') { %>
+                    <input type="text" id="origin" name="origin" value="THS" class="form-control" readonly required >
+                  <% } else if (user.envi === 'TDX') { %>
+                    <input type="text" id="origin" name="origin" value="TDX" class="form-control" readonly required >
+                  <% } %>
                 <label for="label1" class="form-label">Hazard Meteorological Level </label>
                 <select class="form-select" id="hm" name="hm" required>
                     <option value="0">HM : None</option>

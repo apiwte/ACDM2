@@ -16,6 +16,7 @@
 
 </head>
 <body class="p-5">
+  
 
     <div class="card" style="width: 18rem;">
     <div class="card-body">
@@ -31,9 +32,13 @@
                 <option value="D">D</option>
               </select>
             <label for="label1" class="form-label">Airport</label>
-            <select class="form-select" id="origin" name="origin" required>
-                <option value="THS">Sukhothai</option>
-              </select>
+              <% if (user.envi === 'T') { %>
+                  <input type="text" id="origin" name="origin"  class="form-control" required >
+                <% } else if (user.envi === 'THS') { %>
+                  <input type="text" id="origin" name="origin" value="THS" class="form-control" readonly required >
+                <% } else if (user.envi === 'TDX') { %>
+                  <input type="text" id="origin" name="origin" value="THS" class="form-control" readonly required >
+                <% } %>
             <label for="label1" class="form-label">From/To</label>
             <input type="text" id="stop" name="stop" class="form-control"  required >
             <label for="label1" class="form-label">A/C Type</label>

@@ -22,10 +22,20 @@
         <div class="card-body">
             <form method="post" action="/insertnotam">
                 <div class="mb-3">
+                    <label for="label1" class="form-label">Airport</label>
+                    <% if (user.envi === 'T') { %>
+                        <input type="text" id="origin" name="origin"  class="form-control" required >
+                      <% } else if (user.envi === 'THS') { %>
+                        <input type="text" id="origin" name="origin" value="THS" class="form-control" readonly required >
+                      <% } else if (user.envi === 'TDX') { %>
+                        <input type="text" id="origin" name="origin" value="TDX" class="form-control" readonly required >
+                      <% } %>
                     <label for="label1" class="form-label">No.</label>
                     <input type="text" id="notamno" name="notamno" class="form-control"  required >
                     <label for="label1" class="form-label">NOTAM</label>
                     <input type="text" id="notam" name="notam" class="form-control"  required >
+                    <label for="label1" class="form-label">Remark</label>
+                    <textarea class="form-control" id="rm" name="rm" rows="3"></textarea>
                     <label for="label1" class="form-label">Effective</label>
                     <input input type="datetime-local" id="eff" name="eff" class="form-control" type="date"  required >
                     <label for="label1" class="form-label">Until</label>
