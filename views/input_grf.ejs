@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send GRF</title>
+    <title>BA: AOP</title>
 
          <!---Bootstrap-->
          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -17,7 +17,7 @@
 </head>
 <body class="p-5">
 
-    <div class="card" style="width: 18rem;">
+    <div class="card" style="width: 40rem;">
     <div class="card-body">
     <form method="post" action="/insertgrf">
         <div class="mb-3">
@@ -25,14 +25,19 @@
             <input input type="date" id="gdate" name="gdate" class="form-control" type="date"  required >
             <label for="label1" class="form-label">Airport</label>
               <% if (user.envi === 'T') { %>
-                  <input type="text" id="origin" name="origin"  class="form-control" required >
+                <select class="form-select" id="origin" name="origin" required>
+                    <option value="THS">THS</option>
+                    <option value="TDX">TDX</option>
+                  </select>
                 <% } else if (user.envi === 'THS') { %>
-                  <input type="text" id="origin" name="origin" value="THS" class="form-control" readonly required >
+                  <input type="text" id="origin" name="origin" value="THS" readonly class="form-control-plaintext" required >
                 <% } else if (user.envi === 'TDX') { %>
-                  <input type="text" id="origin" name="origin" value="THS" class="form-control" readonly required >
+                  <input type="text" id="origin" name="origin" value="TDX" readonly class="form-control-plaintext" required >
                 <% } %>
             <label for="label1" class="form-label">RCR</label>
-            <input type="text" id="rcr" name="rcr" class="form-control bg-info text-dark"  required >
+            <input type="text" id="rcr" name="rcr" class="form-control bg-light text-dark"  required >
+            <label for="label1" class="form-label">Month Date</label>
+            <input type="text" id="md" name="md" pattern="[0-9]{4}" class="form-control"  required >
             <label for="label1" class="form-label">Time(UTC)</label>
             <input type="text" id="utc" name="utc" pattern="[0-9]{4}" class="form-control"  required >
             <label for="label1" class="form-label">Runway</label>
@@ -88,6 +93,41 @@
                 <option value="50">50</option>
                 <option value="25">25</option>
             </select>
+            <hr>
+
+            <label for="label1" class="form-label">Dept 1</label>
+            <input type="text" id="d1" name="d1" value="NR" class="form-control"  required >
+            <label for="label1" class="form-label">Dept 2</label>
+            <input type="text" id="d2" name="d2" value="NR" class="form-control"  required >
+            <label for="label1" class="form-label">Dept 3</label>
+            <input type="text" id="d2" name="d2" value="NR" class="form-control"  required >
+            <hr>
+
+            <label for="label1" class="form-label">Condition 1</label>
+            <select class="form-select" id="con1" name="con1" required>
+                <option value="DRY">DRY</option>
+                <option value="WET">WET</option>
+                <option value="STANDING WATER">STANDING WATER</option>
+            </select>
+            <label for="label1" class="form-label">Condition 1</label>
+            <select class="form-select" id="con2" name="con2" required>
+                <option value="DRY">DRY</option>
+                <option value="WET">WET</option>
+                <option value="STANDING WATER">STANDING WATER</option>
+            </select>
+            <label for="label1" class="form-label">Condition 1</label>
+            <select class="form-select" id="con3" name="con3" required>
+                <option value="DRY">DRY</option>
+                <option value="WET">WET</option>
+                <option value="STANDING WATER">STANDING WATER</option>
+            </select>
+            <hr>
+
+            <label for="label1" class="form-label">Optional</label>
+            <input type="text" id="opt" name="opt" class="form-control" >
+
+
+
 
             <div class="form-check mt-3">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
@@ -105,10 +145,26 @@
     <script>
 
         const inputTarget = document.getElementById('rcr');
+        const inputOrigin = document.getElementById('origin');
+        
+
+        if(inputOrigin.value === 'THS'){
+
+            airport = 'VTPO'
+
+        } else if (inputOrigin.value ==='TDX') {
+
+            airport = 'VTBO'
+
+        }
     
         addEventListener("change", (event) => {
 
-            inputTarget.value =  utc.value +' '+ rwy.value +' '+  rcam1.value +'/'+ rcam2.value +'/'+ rcam3.value +' '+  cov1.value +'/'+ cov2.value +'/'+ cov3.value
+            inputTarget.value = 'RCR' +' '+ airport +' '+ md.value + utc.value +' '
+                + rwy.value +' '+  rcam1.value +'/'+ rcam2.value +'/'+ rcam3.value +' '
+                + cov1.value +'/'+ cov2.value +'/'+ cov3.value +' '
+                + d1.value +'/'+ d2.value +'/'+ d1.value +' '
+                + con1.value +'/'+ con2.value +'/'+ con3.value +' '+opt.value
 
         });
 
