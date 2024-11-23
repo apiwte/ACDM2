@@ -265,7 +265,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
         console.log(" dataEdit : ",dataEdit)
         
-        res.render(__dirname + '/views/edit_flight.ejs', { dataEdit });
+        res.render(__dirname + '/views/edit_flight.ejs', { dataEdit, user: req.session.user });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
@@ -557,6 +557,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           stop: body4.stop,
           actype: body4.actype,
           reg: body4.reg,
+          bay: body4.bay,
           st: body4.st,
           et: body4.et,
           at: body4.at,

@@ -32,15 +32,19 @@
                     <label for="label1" class="form-label">STA/STD</label>
                     <input type="text" id="st" name="st" value=<%= dataEdit[0].st %> readonly class="form-control-plaintext"  >
                     <label for="label1" class="form-label">Bay</label>
-                    <input type="text" id="bay" name="bay"  class="form-control"  value=<%= dataEdit[0].bay %> >
+                    <% if (user.role === 'admin') { %>
+                        <input type="text" id="bay" name="bay" value=<%= dataEdit[0].bay %>  class="form-control">
+                      <% } else if (user.role === 'airside') { %>
+                        <input type="text" id="bay" name="bay" value=<%= dataEdit[0].bay %>  class="form-control">
+                      <% } else { %>
+                        <input type="text" id="bay" name="bay" value=<%= dataEdit[0].bay %> readonly class="form-control-plaintext">
+                      <% } %>
                     <label for="label1" class="form-label">ETA/ETD(TOBT)</label>
                     <input type="text" id="et" name="et" pattern="[0-9]{4}" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].et %> >
                     <label for="label1" class="form-label">ATA/ATD</label>
                     <input type="text" id="at" name="at" pattern="[0-9]{4}" class="form-control" pattern="[0-9]{4}" value=<%= dataEdit[0].at %> >
                     <label for="label1" class="form-label">Remark</label>
                     <textarea class="form-control" id="rm" name="rm" rows="3" ><%= dataEdit[0].rm %></textarea>
-
-        
                 </div>
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>

@@ -160,7 +160,7 @@
                 </tbody>
             </table>  
     </div>
-    <a href="/flight" class="<%=buttonWT%>" >Submit Flight</a>
+    <a href="/flight" class="<%=buttonFlight%>" >Submit Flight</a>
     <hr>
 
     <!---Table GRF-->
@@ -192,9 +192,13 @@
         </div>
 
         <!---Table Board-->
-        <% if(data6[0].hm == '1' || data6[0].hm == '2'|| data6[0].hm == '3' || data6[0].lvp == '1'|| data6[0].lvp == '2'|| data6[0].lvp == '3' ){ %>
+        <% if(data6THS[0].hm == '1' || data6THS[0].hm == '2'|| data6THS[0].hm == '3' || data6THS[0].lvp == '1'|| data6THS[0].lvp == '2'|| data6THS[0].lvp == '3' ){ %>
           <%alertimg3 = "https://cdn-icons-png.flaticon.com/512/9356/9356599.png" %><% } else{ %>  
             <%alertimg3 = "https://cdn-icons-png.flaticon.com/512/7084/7084512.png" %><% } %>
+
+        <% if(data6TDX[0].hm == '1' || data6TDX[0].hm == '2'|| data6TDX[0].hm == '3' || data6TDX[0].lvp == '1'|| data6TDX[0].lvp == '2'|| data6TDX[0].lvp == '3' ){ %>
+          <%alertimg4 = "https://cdn-icons-png.flaticon.com/512/9356/9356599.png" %><% } else{ %>  
+            <%alertimg4 = "https://cdn-icons-png.flaticon.com/512/7084/7084512.png" %><% } %>            
 
         <div class="col">
           <p class="h5 pt-3">Information and alert</p>
@@ -219,7 +223,7 @@
           <div class="card" style="min-height: 12rem;">
             <div class="card-body">
               <h5>TDX-Trat</h5>
-              <img src=<%=alertimg3%>  style="width:50px;height:50px;"> 
+              <img src=<%=alertimg4%>  style="width:50px;height:50px;"> 
               <h4 class="mt-3">Hazard Meteorological Level : <%=data6TDX[0].hm%></h4>
               <h4>Low-vis Level : <%=data6TDX[0].lvp%></h4>
               <h4>Weather info. : <%=data6TDX[0].winfo%></h4>
