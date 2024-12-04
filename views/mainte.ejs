@@ -57,7 +57,7 @@
                   Internal forms
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/mainte">Maintenace Tracker</a></li>
+                  <li><a class="dropdown-item disabled" href="/mainte">Maintenace Tracker</a></li>
                   <li><a class="dropdown-item disabled" href="/">ADP request form</a></li>
                   <li><a class="dropdown-item disabled" href="/">Wildlife record form</a></li>
                   <li><a class="dropdown-item disabled" href="/">Safety report</a></li>
@@ -90,6 +90,8 @@
             <table class="table"  id="myTable4">
                 <tr class="table-light">
                 <thead>
+                    <th scope="col" >Created at</th>
+                    <th scope="col" >Airport</th>
                     <th scope="col" >Case</th>
                     <th scope="col" >Status</th>
                     <th scope="col" >Remark</th>
@@ -99,6 +101,8 @@
                 <tbody id="tableMainte">
                     <tr>
                     <% data7.forEach(item => { %>
+                    <td><%= item.c %></td>
+                    <td><%= item.case %></td> 
                     <td><%= item.case %></td>
                     <td><%= item.status %></td>
                     <td><%= item.rm %></td>
