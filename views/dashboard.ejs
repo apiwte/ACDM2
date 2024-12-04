@@ -54,7 +54,7 @@
     <% var envitext = "TDX-Trat" %>
   <% } %>
 
-  
+  <span class="d-flex flex-row-reverse bd-highlight">Username : <%= user.username%>  | role: <%= user.role %> | environment: <%=envitext%></span>
 
     <!---Navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -100,7 +100,7 @@
                 </ul>
               </li>
             </ul>
-            <span class="navbar-text">Username : <%= user.username%>  | role: <%= user.role %> | environment: <%=envitext%></span>
+            
             <div class="d-flex flex-row-reverse bd-highlight">
               <div class="p-2"><a href="/logout" class="btn btn-light">Log out</a></div>
               <div class="p-2"><input input type="date"  id="datePicker"  class="form-control" type="date" style="width: 100%"  required ></div>
