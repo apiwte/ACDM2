@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    
+         <!---Bootstrap-->
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+         
+         <!--Socket.io-->
+         <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
+        
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body class="p-4">
+
+    <% if(user.role == 'admin' || user.role == 'airside'){ %>
+        <%buttonFlight = 'btn btn-primary'%>
+          <% } else{ %>  <h1><%buttonFlight = 'btn btn-primary btn disabled'%></h1><% } %>
+
+    <% if (user.envi === 'T') { %>
+        <% var envitext = "ALL" %>
+      <% } else if (user.envi === 'THS') { %>
+        <% var envitext = "THS-Sukhothai" %>
+      <% } else if (user.envi === 'TDX') { %>
+        <% var envitext = "TDX-Trat" %>
+      <% } %>
+
+    <!---Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">BA Airport : Aerodrome Operations portal (Trial version 0.1)</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Input
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/grf">GRF</a></li>
+                  <li><a class="dropdown-item" href="/notam">NOTAM</a></li>
+                  <li><a class="dropdown-item disabled" >AD Announcement (Non-NOTAM)</a></li>
+                  <li><a class="dropdown-item" href="/wt">Adverse weather/Low-vis</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Internal forms
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/mainte">Maintenace Tracker</a></li>
+                  <li><a class="dropdown-item disabled" href="/">ADP request form</a></li>
+                  <li><a class="dropdown-item disabled" href="/">Wildlife record form</a></li>
+                  <li><a class="dropdown-item disabled" href="/">Safety report</a></li>
+                  <li><a class="dropdown-item disabled" href="/">GA/State Slot</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  External forms
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item disabled" href="/grf">Drone flying request</a></li>
+                </ul>
+              </li>
+            </ul>
+            
+
+        </div> 
+    </div>
+    </nav>
+
+
+        
+
+    <!---Table Flight-->
+    <div class="container-fluid">
+    <div class="row">
+      <p class="h5 pt-3">Maintenace</p>
+      <h6><%=envitext%></h6>
+            <table class="table"  id="myTable4">
+                <tr class="table-light">
+                <thead>
+                    <th scope="col" >Case</th>
+                    <th scope="col" >Status</th>
+                    <th scope="col" >Remark</th>
+                    <th scope="col" >Action</th>
+                </thead>
+                </tr>
+                <tbody id="tableMainte">
+                    <tr>
+                    <% data7.forEach(item => { %>
+                    <td><%= item.case %></td>
+                    <td><%= item.status %></td>
+                    <td><%= item.rm %></td>
+                    <td><a href="/edit_flight/<%=item._id%>" class="btn btn-primary" aria-disabled="true">Edit</a>
+                      <a href="/deleteFlight/<%=item._id%>" onclick="return confirm('Confirm delete?')" class="<%=buttonDel%>">Delete</a>
+                    </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>  
+    </div>
+    <a href="/input_mainte" class="<%=buttonFlight%>" >Submit Case</a>
+    <hr>
+    
+</body>
+</html>

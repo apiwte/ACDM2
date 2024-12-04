@@ -44,6 +44,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     const collection4 = db2.collection('flightths');
     const collection5 = db2.collection('user');
     const collection6 = db2.collection('wtths');
+    const collection7 = db2.collection('mainte');
 
     const flightschema = {
         airlines: String,
@@ -355,6 +356,24 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         //console.log(data)
         
         res.render(__dirname + '/views/inputnew.ejs', { data });
+
+      } catch (err) {
+        console.error('Error retrieving data:', err);
+        res.status(500).send('Error retrieving data');
+      }
+
+    })
+
+    app.get('/mainte',checkAuthenticated, checkRoles(['admin','airside']),async(req,res)=>{
+
+      try {
+        
+        data7 = await collection7.find().toArray(); // Retrieve all documents
+
+        //const data = await flights.find({});
+        //console.log(data)
+        
+        res.render(__dirname + '/views/mainte.ejs', { data7, user: req.session.user });
 
       } catch (err) {
         console.error('Error retrieving data:', err);
