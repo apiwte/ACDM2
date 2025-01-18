@@ -139,15 +139,10 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
         res.redirect('/login');
       });
     });
+
+
     
 
-
-
-
-
-
-
-  
 
     
     app.get('/acdm', async (req, res) => {
@@ -521,28 +516,34 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
     });
 
     app.post('/insertnotam', urlencodedParser,checkAuthenticated, async (req, res) => {
+
+      var body3 = req.body;
+
+
       try {
 
-        var body3 = req.body;       
-
-       insertonenotam = await collection3.insertOne({
+        insertonenotam = await collection3.insertOne({
           notamno: body3.notamno,
           origin: body3.origin,
           notam: body3.notam,
           rm: body3.rm,
           eff: new Date(body3.eff),
           end: new Date(body3.end),
-          createdAt: new Date()      
+          createdAt: new Date()
+          
+        
       
         })
 
-        res.redirect('/');
+      res.redirect('/');
 
       } catch (error) {
         console.error('Error insert data:', error);
         res.status(500).send('Internal Server Error');
       }
     });
+
+    
 
     app.post('/insertflight', urlencodedParser,checkAuthenticated, async (req, res) => {
       try {
