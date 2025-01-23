@@ -412,7 +412,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
 
     })
 
-    app.get('/wt',checkAuthenticated, checkRoles(['admin','met']),async(req,res)=>{
+    app.get('/wt',checkAuthenticated, checkRoles(['admin','met','airside']),async(req,res)=>{
 
       try {
         
@@ -503,6 +503,7 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: tr
           hm: body6.hm,
           lvp: body6.lvp,
           winfo: body6.winfo,
+          metreport: body6.metreport,
           createdAt: new Date()      
       
         })

@@ -43,7 +43,7 @@
     <%buttonGRF = 'btn btn-primary'%>
       <% } else{ %>  <h1><%buttonGRF = 'btn btn-primary btn disabled'%></h1><% } %>
 
-  <% if(user.role == 'admin' || user.role == 'met'){ %>
+  <% if(user.role == 'admin' || user.role == 'met' || user.role == 'airside'){ %>
     <%buttonWT = 'btn btn-primary'%>
       <% } else{ %>  <h1><%buttonWT = 'btn btn-primary btn disabled'%></h1><% } %>
 
@@ -61,7 +61,7 @@
     <!---Navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">BA Airport : Aerodrome Operations portal (Trial version 0.1)</a>
+          <a class="navbar-brand" href="#">BA Airport : Aerodrome Operations portal (Trial version 0.2)</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -81,6 +81,7 @@
                   <li><a class="dropdown-item" href="/wt">Adverse weather/Low-vis</a></li>
                 </ul>
               </li>
+              <!---
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Internal forms
@@ -100,7 +101,7 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item disabled" href="/grf">Drone flying request</a></li>
                 </ul>
-              </li>
+              </li>-->
             </ul>
             <span class="navbar-text">Username : <%= user.username%>  | role: <%= user.role %> | environment: <%=envitext%></span>
             <div class="d-flex flex-row-reverse bd-highlight">
@@ -197,7 +198,7 @@
             <a href="/grf" class="<%=buttonGRF%>">Submit GRF</a>
         </div>
 
-        <!---Table Board-->
+        <!---Table WeatherBoard-->
         <% if(data6THS[0].hm == '1' || data6THS[0].hm == '2'|| data6THS[0].hm == '3' || data6THS[0].lvp == '1'|| data6THS[0].lvp == '2'|| data6THS[0].lvp == '3' ){ %>
           <%alertimg3 = "https://cdn-icons-png.flaticon.com/512/9356/9356599.png" %><% } else{ %>  
             <%alertimg3 = "https://cdn-icons-png.flaticon.com/512/7084/7084512.png" %><% } %>
@@ -217,6 +218,7 @@
                 <h4 class="mt-3">Hazard Meteorological Level : <%=data6THS[0].hm%></h4>
                 <h4>Low-vis Level : <%=data6THS[0].lvp%></h4>
                 <h4>Weather info. : <%=data6THS[0].winfo%></h4>
+                <h4>MET Report : <%=data6THS[0].metreport%></h4>
                 <h6>Update at : <%= data6THS[0].createdAt; %></h6>
             </div>
           </div>
@@ -233,6 +235,7 @@
               <h4 class="mt-3">Hazard Meteorological Level : <%=data6TDX[0].hm%></h4>
               <h4>Low-vis Level : <%=data6TDX[0].lvp%></h4>
               <h4>Weather info. : <%=data6TDX[0].winfo%></h4>
+              <h4>MET Report : <%=data6TDX[0].metreport%></h4>
               <h6>Update at : <%= data6TDX[0].createdAt; %></h6>
           </div>
         </div>
